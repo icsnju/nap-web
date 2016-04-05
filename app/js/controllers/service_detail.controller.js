@@ -1,9 +1,9 @@
 'use strict';
 
-var detail = angular.module('sher.detail',['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 'chart.js', 'ui.router']);
+var detail = angular.module('nap.service_detail',['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 'chart.js', 'ui.router']);
 
-detail.controller("mesCtrl", ['$scope', '$http', '$stateParams', 'Tasks',
-	function($scope, $http, $stateParams, Tasks){
+detail.controller("mesCtrl", ['$scope', '$http', '$stateParams', 'Services',
+	function($scope, $http, $stateParams, Services){
 	//	console.log($stateParams.taskID);
 	//	Tasks.refresh();
 	//	$scope.data = Tasks.getById($stateParams.taskID);

@@ -1,6 +1,6 @@
 'use strict';
 
-var overview = angular.module("sher.overview", ["chart.js"]);
+var overview = angular.module("nap.overview", ["chart.js"]);
 
 overview.controller("tableCtrl", function ($scope) {
   $scope.data = [{

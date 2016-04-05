@@ -1,12 +1,13 @@
 'use strict';
 
 // Declare app level module which depends on views, and components
-angular.module('sher', [
+angular.module('nap', [
   'ui.router',
-  'sher.task',
-  'sher.detail',
-  'sher.overview',
-  'sher.auth',
+  'nap.project',
+  'nap.service',
+  'nap.service_detail',
+  'nap.overview',
+  'nap.auth',
   'ngRoute',
   'ngCookies'
 ])
@@ -20,14 +21,19 @@ angular.module('sher', [
       }).state("navbar", {
         templateUrl: "/app/js/templates/navbar.html"
       })
-      .state("navbar.task", {
-        url: "/task?query",
-        templateUrl: "/app/js/templates/task.html",
-        controller: 'TaskCtrl'
-      }).state("navbar.detail", {
-        url: "/task/:taskID",
-        templateUrl: "/app/js/templates/task.detail.html",
+      .state("navbar.project", {
+        url: "/project?query",
+        templateUrl: "/app/js/templates/project.html",
+        controller: 'ProjectCtrl'
+      }).state("navbar.service", {
+        url: "/project/:projectID",
+        templateUrl: "/app/js/templates/service.html",
         controller: ''
+      }).state("navbar.service_detail", {
+      url: "/service/:serviceID",
+      templateUrl: "/app/js/templates/service_detail.html",
+      controller: ''
+      
       }).state("navbar.overview", {
         url: "/overview",
         templateUrl: "/app/js/templates/overview.html",

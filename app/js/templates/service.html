@@ -1,0 +1,84 @@
+<div class="animated fadeInRight">
+    <div id="backTask">
+        <a id="backUrl" href="#/task">
+            <i class="glyphicon glyphicon-arrow-left" style="margin-right:5px; font-size: 14px!important;">
+            </i>Tasks
+        </a>
+    </div>
+    <div class="padContent" ng-controller="DetailCtrl">
+        <div class="detailContent animated fadeInRight" style="background-color: #ffffff">
+            <h1>Project Detail</h1>
+            <hr style="margin-top: 5px;"/>
+            <ul class="specs">
+                <li>
+                    <span>ID</span>
+                    <dd>{{ data.id }}</dd>
+                </li>
+                <li>
+                    <span>Name</span>
+                    <dd>{{ data.name }}</dd>
+                </li>
+                <li>
+                    <span>Image</span>
+                    <dd>{{ data.docker_image }}</dd>
+                </li>
+                <li>
+                    <span>Slave</span>
+                    <dd>{{ data.slave_hostname }}</dd>
+                </li>
+                <li>
+                    <span>Cpus</span>
+                    <dd>{{ data.cpus }}</dd>
+                </li>
+                <li>
+                    <span>Memory</span>
+                    <dd>{{ data.mem }}</dd>
+                </li>
+                <li>
+                    <span>Status</span>
+                    <dd>{{ data.state }}</dd>
+                </li>
+                <li>
+                    <span>Time</span>
+                    <dd>{{ data.create_time | relativeDate }}</dd>
+                </li>
+                <li>
+                    <span>Options</span>
+                    <dd>
+                        <a ng-click="kill(task)" title="kill"><span class="si-close-circle"></span></a>
+                        <a ng-click="delete(task)" title="delete"><span class="si-trash"></span></a>
+                        <a href=""><span class="si-file"></span></a>
+                    </dd>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="table-responsive" ng-controller="ServiceCtrl">
+        <table class="table table-striped tasks">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Ip</th>
+                <th>Ports</th>
+                <th>Status</th>
+                <th>Options</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="read" ng-repeat="service in services" ng-click="rowClick(service.name)">
+                <td ng-bind="$index+1"></td>
+                <td class="mail-subject">{{ service.name }}</td>
+                <td>{{ service.ip }}</td>
+                <td>{{ service.ports }}</td>
+                <td>{{ service.status }}</td>
+                <td class="mail-options">
+                    <a ng-click="kill(project)" title="kill"><span class="si-close-circle"></span></a>
+                    <a ng-click="delete(project)" title="delete"><span class="si-trash"></span></a>
+                    <a href=""><span class="si-file"></span></a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

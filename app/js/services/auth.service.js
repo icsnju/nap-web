@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-angular.module('sher.auth',['ngCookies'])
+angular.module('nap.auth',['ngCookies'])
 
 .factory('AuthenticationService',
     ['Base64', '$state', '$cookieStore', '$rootScope', '$timeout',

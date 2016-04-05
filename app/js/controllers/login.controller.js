@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-angular.module('sher.auth')
+angular.module('nap.auth')
 
 .controller('LoginController',
     ['$scope', '$rootScope', '$state', 'AuthenticationService',
@@ -13,7 +13,7 @@ angular.module('sher.auth')
             AuthenticationService.Login($scope.username, $scope.password, function (response) {
                 if (response.success) {
                     AuthenticationService.SetCredentials($scope.username, $scope.password);
-                    $state.go('navbar.overview');
+                    $state.go('navbar.project');
                 } else {
                     $scope.error = response.message;
                     $scope.dataLoading = false;

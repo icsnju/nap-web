@@ -4,55 +4,55 @@
 
 var FILTER_NAME = ['All', 'Running', 'Finished', 'Failed', 'Killed', 'Lost', 'Staging', 'Error'];
 
-angular.module('sher.task', ['ngResource', 'ui.bootstrap'])
+angular.module('nap.project', ['ngResource', 'ui.bootstrap'])
 
-.controller('TaskCtrl', [
+.controller('ProjectCtrl', [
     '$scope',
     '$http',
     '$timeout',
     '$state',
     '$stateParams',
     '$uibModal',
-    'Tasks',
-function($scope, $http, $timeout, $state, $stateParams, $uibModal, Tasks) {
+    'Projects',
+function($scope, $http, $timeout, $state, $stateParams, $uibModal, Projects) {
     $scope.query = $stateParams.query || "all";
     $scope.filter = $scope.query
 	
     // 加载数据
     var reload = function (query) {
-        Tasks.refresh().$promise.then(function(response) {
+        Projects.refresh().$promise.then(function(response) {
             //TODO 错误处理
             
-            $scope.tasks = Tasks.getTasks(query)
+            $scope.projects = Projects.getProjects(query)
         });
     }
 
     // 提交任务
-    $scope.submitTask = function (task) {
-        Tasks.submitTask(task, reload($scope.query))
+    $scope.submitProject = function (project) {
+        Projects.submitProject(project, reload($scope.query))
     }
 
     // 杀死任务
-    $scope.kill = function (task) {
-        Tasks.killTask(task.id, reload($scope.query));
+    $scope.kill = function (project) {
+        Projects.killProject(project[0], reload($scope.query));
     }
 
     // 删除任务
-    $scope.delete = function (task) {
-        Tasks.deleteTask(task.id, reload($scope.query));
+    $scope.delete = function (project) {
+        Projects.deleteProject(project[0], reload($scope.query));
     }
 
     // 搜索任务
     $scope.search = function () {
-        $state.go('task', {query: $scope.search_key})
+        $state.go('project', {query: $scope.search_key})
     }
 
     // 打开提交任务的模态框
-    $scope.openTaskModal = function () {
+    $scope.openProjectModal = function () {
         var modalInstance = $uibModal.open({
             animation: true,
-            templateUrl: '/app/js/templates/task.modal.html',
-            controller: TaskModalCtrl,
+            templateUrl: '/app/js/templates/project.modal.html',
+            controller: ProjectModalCtrl,
             size: 'md',
             windowTemplateUrl: '/app/js/components/modal/modal.window.html',
             resolve: {
@@ -61,20 +61,20 @@ function($scope, $http, $timeout, $state, $stateParams, $uibModal, Tasks) {
         });
     }
     
-    $scope.rowClick = function(taskID){
-		$state.go('navbar.detail',{taskID: taskID});
+    $scope.rowClick = function(project_name){
+		$state.go('navbar.service',{taskID: project_name});
 	};
 
     // 加载任务, 定时监控
     reload($scope.query);
     setInterval(function(){
-        Tasks.monitor(reload($scope.query))
+        Projects.monitor(reload($scope.query))
     },10000)   
 }]);
 
 
 // 模块对话框控制器
-var TaskModalCtrl = function ($scope, $uibModalInstance, Tasks) {
+var ProjectModalCtrl = function ($scope, $uibModalInstance, Projects) {
     // 数据初始化
     $scope.task = {
         cpus:'0.1',
@@ -123,7 +123,7 @@ var TaskModalCtrl = function ($scope, $uibModalInstance, Tasks) {
     }
 
     $scope.submit = function () {
-        Tasks.submitTask($scope.task, function(){
+        Projects.submitProject($scope.task, function(){
             // TODO 消息通知
         });
         $uibModalInstance.close();
