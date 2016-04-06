@@ -62,7 +62,8 @@ function($scope, $http, $timeout, $state, $stateParams, $uibModal, Projects) {
     }
     
     $scope.rowClick = function(project_name){
-		$state.go('navbar.service',{taskID: project_name});
+        console.warn("project project name: " + project_name)
+		$state.go('navbar.service',{project_name: project_name});
 	};
 
     // 加载任务, 定时监控

@@ -3,8 +3,9 @@ var API = 'http://114.212.87.52:9000/app'
 
 angular.module('nap.service')
 
-    .factory('Services', ['$resource', '$http', function($resource, $http) {
+    .factory('Services', ['$resource', '$http', '$stateParams', function($resource, $http, $stateParams) {
         var services = [];
+        var project_name = $stateParams.project_name;
 
         // $http.get(API + '/projects', {}).success(function(data){
         //     tasks = data.items
@@ -16,9 +17,9 @@ angular.module('nap.service')
             },
         })
 
-        var getServices = function(name, callback) {
+        var getServices = function(project_name, callback) {
             return resource.query({
-                'project': name
+                'project': project_name
             }, function(r) {
                 return callback && callback(r);
             })
@@ -27,9 +28,11 @@ angular.module('nap.service')
         return {
             // 刷新任务
             refresh: function() {
+                console.log("here")
                 // return tasks
-                return getServices(function(response) {
-                    services = response.items;
+                return getServices(project_name, function(response) {
+                    console.log(response)
+                    services = response.services;
                     // for(var i = 0; i < tasks.length; i++) {
                     //     switch (parseInt(tasks[i].state)) {
                     //         case 0:
@@ -94,7 +97,7 @@ angular.module('nap.service')
             //},
 
             // 搜索任务
-            getServices: function(key) {
+            getServices: function(project_name, key) {
                 if(key == 'all') {
                     return services;
                 } else {
@@ -123,37 +126,16 @@ angular.module('nap.service')
             },
 
             // 监控任务
-            monitor: function(name, callback) {
+            monitor: function(project_name, callback) {
                 $http({
                     method: 'GET',
                     url: API + '/services',
                     params: {
-                        'project': name,
-                        'limit': 20
+                        'project': project_name
                     }
                 }).success(function(response) {
                     return callback && callback(response);
                 });
             },
-            //
-            // // 删除任务
-            // deleteTask: function(id, callback) {
-            //     $http({
-            //         method: 'DELETE',
-            //         url: API + '/tasks/' + id
-            //     }).success(function(response) {
-            //         return callback && callback(response);
-            //     })
-            // },
-            //
-            // // 杀死任务
-            // killTask: function(id, callback) {
-            //     $http({
-            //         method: 'PUT',
-            //         url: API + '/tasks/' + id + '/kill'
-            //     }).success(function(response) {
-            //         return callback && callback(response);
-            //     })
-            // }
         }
     }])

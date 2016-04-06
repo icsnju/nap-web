@@ -3,7 +3,7 @@
  */
 'use strict';
 
-angular.module('sher')
+angular.module('nap')
 
 .filter('relativeDate', function(){
 

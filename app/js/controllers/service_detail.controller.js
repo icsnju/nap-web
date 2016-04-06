@@ -1,20 +1,25 @@
 'use strict';
 
 var detail = angular.module('nap.service_detail',['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 'chart.js', 'ui.router']);
+var service_name;
 
 detail.controller("mesCtrl", ['$scope', '$http', '$stateParams', 'Services',
 	function($scope, $http, $stateParams, Services){
 	//	console.log($stateParams.taskID);
 	//	Tasks.refresh();
 	//	$scope.data = Tasks.getById($stateParams.taskID);
+
+		service_name = $stateParams.service_name;
+
 		$http.get('data/ID.json').success(function(data) {
 			$scope.data = data.result;
 		});
 	}
 ]);
 
-detail.controller("cpuCtrl", function ($scope, $http) {
+detail.controller("cpuCtrl", ['$scope', '$http', '$stateParams', function ($scope, $http, $stateParams) {
 
+	service_name = $stateParams.service_name
 	$scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
 	$scope.series = ['Series A', 'Series B'];
 	$scope.data = [
@@ -30,7 +35,7 @@ detail.controller("cpuCtrl", function ($scope, $http) {
 			];
 		});
 	},10000)
-});
+}]);
 
 detail.controller("memCtrl", function ($scope, $http) {
 
