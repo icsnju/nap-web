@@ -1,6 +1,6 @@
 <div class="animated fadeInRight">
     <div id="backTask">
-        <a id="backUrl" href="/app/project">
+        <a id="backUrl" ui-sref="navbar.project">
             <i class="glyphicon glyphicon-arrow-left" style="margin-right:5px; font-size: 14px!important;">
             </i>Services
         </a>
@@ -12,7 +12,7 @@
             <ul class="specs">
                 <li>
                     <span>ID</span>
-                    <dd>{{ data.id }}</dd>
+                    <dd>{{ short_id(data.id) }}</dd>
                 </li>
                 <li>
                     <span>Name</span>
@@ -20,27 +20,23 @@
                 </li>
                 <li>
                     <span>Image</span>
-                    <dd>{{ data.docker_image }}</dd>
+                    <dd>{{ data.image }}</dd>
                 </li>
                 <li>
-                    <span>Slave</span>
-                    <dd>{{ data.slave_hostname }}</dd>
+                    <span>IP</span>
+                    <dd>{{ data.ip }}</dd>
                 </li>
                 <li>
-                    <span>Cpus</span>
-                    <dd>{{ data.cpus }}</dd>
-                </li>
-                <li>
-                    <span>Memory</span>
-                    <dd>{{ data.mem }}</dd>
+                    <span>Ports</span>
+                    <dd>{{ data.ports }}</dd>
                 </li>
                 <li>
                     <span>Status</span>
-                    <dd>{{ data.state }}</dd>
+                    <dd>{{ data.status }}</dd>
                 </li>
                 <li>
                     <span>Time</span>
-                    <dd>{{ data.create_time | relativeDate }}</dd>
+                    <dd>{{ data.create_time }}</dd>
                 </li>
                 <li>
                     <span>Options</span>

@@ -61,16 +61,16 @@ function($scope, $http, $timeout, $state, $stateParams, $uibModal, Projects) {
         });
     }
     
-    $scope.rowClick = function(project_name){
-        console.warn("project project name: " + project_name)
-		$state.go('navbar.service',{project_name: project_name});
+    $scope.rowClick = function(project){
+        console.warn("project project name: " + project)
+		$state.go('navbar.service',{project: project});
 	};
 
     // 加载任务, 定时监控
     reload($scope.query);
-    setInterval(function(){
-        Projects.monitor(reload($scope.query))
-    },10000)   
+    // setInterval(function(){
+    //     Projects.monitor(reload($scope.query))
+    // },10000)
 }]);
 
 

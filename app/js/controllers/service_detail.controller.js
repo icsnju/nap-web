@@ -1,7 +1,8 @@
 'use strict';
 
+var API = 'http://114.212.87.52:9000/app/'
+
 var detail = angular.module('nap.service_detail',['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 'chart.js', 'ui.router']);
-var service_name;
 
 detail.controller("mesCtrl", ['$scope', '$http', '$stateParams', 'Services',
 	function($scope, $http, $stateParams, Services){
@@ -9,17 +10,42 @@ detail.controller("mesCtrl", ['$scope', '$http', '$stateParams', 'Services',
 	//	Tasks.refresh();
 	//	$scope.data = Tasks.getById($stateParams.taskID);
 
-		service_name = $stateParams.service_name;
+		var service_name = $stateParams.service_name.split(".")[1];
+        var project_name = $stateParams.service_name.split(".")[0];
 
-		$http.get('data/ID.json').success(function(data) {
-			$scope.data = data.result;
+        console.log('mesctrl in service detail' + project_name + service_name)
+
+        $scope.data = {'id': ''};
+
+		$http({
+            method: 'GET',
+            url: API + '/service',
+            params: {
+                'project' : project_name,
+                'service' : service_name
+            }
+        }).success(function(data) {
+			$scope.data = data.item;
 		});
+        
+        $scope.short_id = function (id) {
+            var rel = "";
+            if(id.length <= 10)
+                return id;
+            for (var i=0; i<10; i++){
+                rel += id[i];
+            }
+            return rel;
+        }
+        
 	}
 ]);
 
 detail.controller("cpuCtrl", ['$scope', '$http', '$stateParams', function ($scope, $http, $stateParams) {
 
-	service_name = $stateParams.service_name
+	var service_name = $stateParams.service_name.split(".")[1];
+    var project_name = $stateParams.service_name.split(".")[0];
+
 	$scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
 	$scope.series = ['Series A', 'Series B'];
 	$scope.data = [

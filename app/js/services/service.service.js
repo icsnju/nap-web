@@ -5,7 +5,6 @@ angular.module('nap.service')
 
     .factory('Services', ['$resource', '$http', '$stateParams', function($resource, $http, $stateParams) {
         var services = [];
-        var project_name = $stateParams.project_name;
 
         // $http.get(API + '/projects', {}).success(function(data){
         //     tasks = data.items
@@ -27,11 +26,9 @@ angular.module('nap.service')
 
         return {
             // 刷新任务
-            refresh: function() {
-                console.log("here")
+            refresh: function(project_name) {
                 // return tasks
                 return getServices(project_name, function(response) {
-                    console.log(response)
                     services = response.services;
                     // for(var i = 0; i < tasks.length; i++) {
                     //     switch (parseInt(tasks[i].state)) {
@@ -134,6 +131,11 @@ angular.module('nap.service')
                         'project': project_name
                     }
                 }).success(function(response) {
+                    services = response.services;
+                    console.log("===========");
+                    console.log(services);
+                    console.log(response);
+                    console.log(project_name);
                     return callback && callback(response);
                 });
             },

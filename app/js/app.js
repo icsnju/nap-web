@@ -26,7 +26,7 @@ angular.module('nap', [
         templateUrl: "/app/js/templates/project.html",
         controller: 'ProjectCtrl'
       }).state("navbar.service", {
-        url: "/project/:project_name",
+        url: "/project/:project",
         templateUrl: "/app/js/templates/service.html",
         controller: ''
       }).state("navbar.service_detail", {

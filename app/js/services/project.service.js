@@ -156,10 +156,7 @@ angular.module('nap.project')
             deleteProject: function(project_name, callback) {
                 $http({
                     method: 'DELETE',
-                    url: API + '/project',
-                    params: {
-                        'project': project_name
-                    }
+                    url: API + '/projects/' + project_name,
                 }).success(function(response) {
                     return callback && callback(response);
                 })
