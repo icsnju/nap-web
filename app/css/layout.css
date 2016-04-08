@@ -65,7 +65,7 @@ ul.specs {
 
 ul.specs > li{
   display: inline-block;
-  width: 200px;
+  width: 180px;
   padding: 5px;
   vertical-align: top;
 }
@@ -91,7 +91,7 @@ ul.project_specs {
 
 ul.project_specs > li{
   display: inline-block;
-  width: 280px;
+  width: 240px;
   padding: 5px;
   vertical-align: top;
 }

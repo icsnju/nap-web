@@ -10,9 +10,9 @@ detail.controller("mesCtrl", ['$scope', '$http', '$stateParams', 'Services',
 	//	Tasks.refresh();
 	//	$scope.data = Tasks.getById($stateParams.taskID);
 
-		var service_name = $stateParams.service_name.split(".")[1];
-        var project_name = $stateParams.service_name.split(".")[0];
-        $scope.project_name = $stateParams.service_name.split(".")[0];
+		var service_name = $stateParams.service_name;
+        var project_name = $stateParams.project;
+        $scope.project_name = $stateParams.project;
 
         console.log('mesctrl in service detail' + project_name + service_name)
 

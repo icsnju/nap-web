@@ -30,7 +30,7 @@ angular.module('nap', [
         templateUrl: "/app/js/templates/service.html",
         controller: ''
       }).state("navbar.service_detail", {
-      url: "/service/:service_name",
+      url: "/project/:project/:service_name",
       templateUrl: "/app/js/templates/service_detail.html",
       controller: ''
       

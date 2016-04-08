@@ -64,7 +64,7 @@ function($scope, $http, $timeout, $state, $stateParams, $uibModal, Services) {
 
     $scope.rowClick = function(serviceID){
         console.log('goto service_detail')
-		$state.go('navbar.service_detail',{service_name: project_name + "." + serviceID});
+		$state.go('navbar.service_detail',{project: project_name, service_name: serviceID});
 	};
 
     // 加载任务, 定时监控
