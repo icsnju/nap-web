@@ -12,6 +12,7 @@ detail.controller("mesCtrl", ['$scope', '$http', '$stateParams', 'Services',
 
 		var service_name = $stateParams.service_name.split(".")[1];
         var project_name = $stateParams.service_name.split(".")[0];
+        $scope.project_name = $stateParams.service_name.split(".")[0];
 
         console.log('mesctrl in service detail' + project_name + service_name)
 

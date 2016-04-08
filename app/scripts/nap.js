@@ -14,7 +14,15 @@ function SmoothlyMenu() {
 $(document).ready(function() {
     // 边栏缩小
     $(document).on("click", ".navbar-minimalize", function() {
+        if($("body").hasClass("mini-navbar"))
+            $(".change-img").attr("src", "images/logo");
+        else
+            $(".change-img").attr("src", "images/logo_big");
         $("body").toggleClass("mini-navbar");
         SmoothlyMenu();
-    })
+    });
+
+    $(document).on("click", "#dockerSetBtn", function() {
+        $("#DockerSetting").toggle(500);
+    });
 })

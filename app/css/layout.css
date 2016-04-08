@@ -77,6 +77,35 @@ ul.specs > li > span{
 
 ul.specs > li > dd{
   font-size: 1.4em;
+  overflow: hidden;
+  text-overflow:ellipsis;
+
+}
+
+ul.project_specs {
+  clear: both;
+  margin: 0;
+  padding: 0px;
+  list-style: none;
+}
+
+ul.project_specs > li{
+  display: inline-block;
+  width: 280px;
+  padding: 5px;
+  vertical-align: top;
+}
+
+ul.project_specs > li > span{
+  font-weight: bold;
+  font-size: 1.6em;
+}
+
+ul.project_specs > li > dd{
+  font-size: 1.4em;
+  overflow: hidden;
+  text-overflow:ellipsis;
+
 }
 
 .login-input{

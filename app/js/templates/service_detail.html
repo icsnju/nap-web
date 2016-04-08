@@ -1,42 +1,43 @@
 <div class="animated fadeInRight">
+    <div ng-controller="mesCtrl">
     <div id="backTask">
-        <a id="backUrl" ui-sref="navbar.project">
+        <a id="backUrl" ui-sref="navbar.service({'project':project_name})">
             <i class="glyphicon glyphicon-arrow-left" style="margin-right:5px; font-size: 14px!important;">
             </i>Services
         </a>
     </div>
-    <div class="padContent" ng-controller="mesCtrl">
+    <div class="padContent">
         <div class="detailContent animated fadeInRight" style="background-color: #ffffff">
             <h1>Service Detail</h1>
             <hr style="margin-top: 5px;"/>
             <ul class="specs">
                 <li>
                     <span>ID</span>
-                    <dd>{{ short_id(data.id) }}</dd>
+                    <dd title="{{ data.id }}">{{ data.id }}</dd>
                 </li>
                 <li>
                     <span>Name</span>
-                    <dd>{{ data.name }}</dd>
+                    <dd title="{{ data.name }}">{{ data.name }}</dd>
                 </li>
                 <li>
                     <span>Image</span>
-                    <dd>{{ data.image }}</dd>
+                    <dd title="{{ data.image }}">{{ data.image }}</dd>
                 </li>
                 <li>
                     <span>IP</span>
-                    <dd>{{ data.ip }}</dd>
+                    <dd title="{{ data.ip }}">{{ data.ip }}</dd>
                 </li>
                 <li>
                     <span>Ports</span>
-                    <dd>{{ data.ports }}</dd>
+                    <dd title="{{ data.ports }}">{{ data.ports }}</dd>
                 </li>
                 <li>
                     <span>Status</span>
-                    <dd>{{ data.status }}</dd>
-                </li>
+                    <dd title="{{ data.status }}">{{ data.status }}</dd>
+                </lii>
                 <li>
                     <span>Time</span>
-                    <dd>{{ data.create_time }}</dd>
+                    <dd title="{{ data.create_time * 1000 | date:'yyyy-MM-dd h:mma' }}">{{ data.create_time * 1000 | date:"yyyy-MM-dd h:mma" }}</dd>
                 </li>
                 <li>
                     <span>Options</span>
@@ -48,6 +49,7 @@
                 </li>
             </ul>
         </div>
+    </div>
     </div>
     <div class="wrapper wrapper-content">
         <div ng-cloak="" class="tabsdemoDynamicHeight">

@@ -13,14 +13,14 @@ service_controller.controller('DetailCtrl', ['$scope', '$http', '$stateParams', 
 	//	console.log($stateParams.taskID);
 	//	Tasks.refresh();
 	//	$scope.data = Tasks.getById($stateParams.taskID);
-        var project_name = $stateParams.project;
+        $scope.project_name = $stateParams.project;
 
         var query = $stateParams.query || "all";
 
-        console.log("detail project name: " + project_name)
+        console.log("detail project name: " + $scope.project_name)
         console.log($stateParams.project)
 
-        $scope.data = $http.get(API + '/projects/' + project_name)
+        $scope.data = $http.get(API + '/projects/' + $scope.project_name)
             .success(function(response){
                 $scope.data = response.item
             })
