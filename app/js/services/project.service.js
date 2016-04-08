@@ -166,10 +166,29 @@ angular.module('nap.project')
             killProject: function(id, callback) {
                 $http({
                     method: 'PUT',
-                    url: API + '/project/' + id + '/kill'
+                    url: API + '/projects',
+                    params:{
+                        'cmd': 'kill',
+                        'project_name': id
+                    }
                 }).success(function(response) {
                     return callback && callback(response);
                 })
+            },
+            
+            // 重启任务
+            restartProject: function (id, callback) {
+                $http({
+                    method: 'PUT',
+                    url: API + '/projects',
+                    params:{
+                        'cmd': 'restart',
+                        'project_name': id
+                    }
+                }).success(function (response) {
+                    return callback && callback(response);
+                })
+                
             }
         }
     }])

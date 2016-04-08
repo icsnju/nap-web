@@ -8,14 +8,14 @@ var FILTER_NAME = ['All', 'Running', 'Finished', 'Failed', 'Killed', 'Lost', 'St
 
 var service_controller = angular.module('nap.service', ['ngResource', 'ui.bootstrap']);
 
-service_controller.controller('DetailCtrl', ['$scope', '$http', '$stateParams', 'Services',
-	function($scope, $http, $stateParams, Services){
+service_controller.controller('DetailCtrl', ['$scope', '$state', '$http', '$stateParams', 'Projects', 'Services',
+	function($scope, $state, $http, $stateParams, Projects, Services){
 	//	console.log($stateParams.taskID);
 	//	Tasks.refresh();
 	//	$scope.data = Tasks.getById($stateParams.taskID);
         $scope.project_name = $stateParams.project;
 
-        var query = $stateParams.query || "all";
+        $scope.query = $stateParams.query || "all";
 
         console.log("detail project name: " + $scope.project_name)
         console.log($stateParams.project)
@@ -25,9 +25,25 @@ service_controller.controller('DetailCtrl', ['$scope', '$http', '$stateParams', 
                 $scope.data = response.item
             })
 
-        // Services.refresh(project_name).$promise.then(function(response) {
-        //     $scope.len = Services.getServices(project_name, query).length
-        // })
+        Services.refresh($scope.project_name).$promise.then(function(response) {
+            $scope.len = Services.getServices($scope.project_name, $scope.query).length
+        })
+
+        $scope.kill = function(project){
+            Projects.killProject(project[0], reload());
+        }
+
+        $scope.restart = function(project){
+            Projects.restartProject(project[0], reload());
+        }
+
+        $scope.delete = function(project){
+            Projects.deleteProject(project[0], reload());
+        }
+
+        var reload = function(){
+            $state.go('navbar.project')
+        }
 
         // $http.get('data/ID.json').success(function(data) {
 		// 	$scope.data = data.result;

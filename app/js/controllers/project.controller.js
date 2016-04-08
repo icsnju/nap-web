@@ -41,6 +41,11 @@ function($scope, $http, $timeout, $state, $stateParams, $uibModal, Projects) {
     $scope.delete = function (project) {
         Projects.deleteProject(project[0], reload($scope.query));
     }
+    
+    //重启任务
+    $scope.restart = function(project){
+        Projects.restartProject(project[0], reload($scope.query));
+    }
 
     // 搜索任务
     $scope.search = function () {

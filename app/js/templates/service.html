@@ -33,9 +33,9 @@
                 <li>
                     <span>Options</span>
                     <dd>
-                        <a ng-click="kill(task)" title="kill"><span class="si-close-circle"></span></a>
-                        <a ng-click="delete(task)" title="delete"><span class="si-trash"></span></a>
-                        <a href=""><span class="si-file"></span></a>
+                        <a ng-click="kill(data)" title="kill"><span class="si-close-circle"></span></a>
+                        <a ng-click="delete(data)" title="delete"><span class="si-trash"></span></a>
+                        <a ng-click="restart(data)" title="restart"><span class="si-rocket"></span></a>
                     </dd>
                 </li>
             </ul>
@@ -62,9 +62,9 @@
                     <td>{{ service.ports }}</td>
                     <td>{{ service.status }}</td>
                     <td class="mail-options">
-                        <a ng-click="kill(project)" title="kill"><span class="si-close-circle"></span></a>
-                        <a ng-click="delete(project)" title="delete"><span class="si-trash"></span></a>
-                        <a href=""><span class="si-file"></span></a>
+                        <a ng-click="kill(service)" title="kill"><span class="si-close-circle"></span></a>
+                        <a ng-click="delete(service)" title="delete"><span class="si-trash"></span></a>
+                        <a ng-click="delete(service)" title="restart"><span class="si-rocket"></span></a>
                     </td>
                 </tr>
                 </tbody>
