@@ -96,21 +96,30 @@ detail.controller("logCtrl", ['$scope', '$http', '$stateParams', function($scope
            'service_name': service_name
        }
    }).success(function(data){
-       $scope.log = data.logs;
+       // $scope.log = data.logs.replace(/\r\n/, '<br>');
+       $scope.log = data.logs
    });
 }]);
 
 detail.controller("yamlCtrl", ['$scope', '$http', '$stateParams', function($scope, $http, $stateParams) {
-    var project_name = $stateParams.project;
-    var service_name = $stateParams.service_name;
+    // var project_name = $stateParams.project;
+    // var service_name = $stateParams.service_name;
+    // $http({
+    //     method: 'GET',
+    //     url: API + '/log',
+    //     params: {
+    //         'project_name': project_name,
+    //         'service_name': service_name
+    //     }
+    // }).success(function (data) {
+    //     $scope.yaml = data.logs;
+    // });
+
     $http({
-        method: 'GET',
-        url: API + '/log',
-        params: {
-            'project_name': project_name,
-            'service_name': service_name
-        }
-    }).success(function (data) {
-        $scope.yaml = data.logs;
+        method: 'jsonp',
+        url: 'http://114.212.189.147:8080/api/v1.2/docker/slave1.p2.test'
+    }).success(function (data){
+        console.log(data)
     });
+
 }]);

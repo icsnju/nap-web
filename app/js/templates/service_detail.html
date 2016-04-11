@@ -81,7 +81,7 @@
                     <md-tab label="log">
                         <md-content class="md-padding">
                             <div ng-controller="logCtrl">
-                                <p>{{ log }}</p>
+                                <pre>{{ log }}</pre>
                             </div>
                         </md-content>
                     </md-tab>
@@ -96,6 +96,15 @@
                                     volutpat non ac est. Praesent ligula diam, congue eu enim scelerisque, finibus
                                     commodo
                                     lectus.</p>
+                            </div>
+                        </md-content>
+                    </md-tab>
+                    <md-tab label="shell">
+                        <md-content class="md-padding" >
+                            <div ng-controller="shellCtrl">
+                                <iframe ng-src="http://114.212.189.147:32943/" style="width:100%; height:400px">
+                                    something wrong
+                                </iframe>
                             </div>
                         </md-content>
                     </md-tab>
