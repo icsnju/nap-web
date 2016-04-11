@@ -13,6 +13,7 @@ detail.controller("mesCtrl", ['$scope', '$http', '$stateParams', 'Services',
 		var service_name = $stateParams.service_name;
         var project_name = $stateParams.project;
         $scope.project_name = $stateParams.project;
+        $scope.service_name = $stateParams.service_name;
 
         console.log('mesctrl in service detail' + project_name + service_name)
 
@@ -82,3 +83,34 @@ detail.controller("memCtrl", function ($scope, $http) {
 		});
 	},10000)
 });
+
+detail.controller("logCtrl", ['$scope', '$http', '$stateParams', function($scope, $http, $stateParams) {
+    var project_name = $stateParams.project;
+    var service_name = $stateParams.service_name;
+    console.log(project_name);
+   $http({
+       method: 'GET',
+       url: API + '/log',
+       params:{
+           'project_name': project_name,
+           'service_name': service_name
+       }
+   }).success(function(data){
+       $scope.log = data.logs;
+   });
+}]);
+
+detail.controller("yamlCtrl", ['$scope', '$http', '$stateParams', function($scope, $http, $stateParams) {
+    var project_name = $stateParams.project;
+    var service_name = $stateParams.service_name;
+    $http({
+        method: 'GET',
+        url: API + '/log',
+        params: {
+            'project_name': project_name,
+            'service_name': service_name
+        }
+    }).success(function (data) {
+        $scope.yaml = data.logs;
+    });
+}]);

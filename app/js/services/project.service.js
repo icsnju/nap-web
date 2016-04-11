@@ -123,21 +123,34 @@ angular.module('nap.project')
                 }
             },
 
-            // 提交任务, table and url
-            submitProject: function(project, callback) {
+            submitProjectFromURL: function(project_name, url, callback) {
                 $http({
                     method: 'POST',
-                    url: API + '/project',
-                    data : project,
-                    headers:{
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json; ; charset=UTF-8'
+                    url: API + '/projects',
+                    data: {
+                        'cmd': 'url',
+                        'project_name': project_name,
+                        'url': url
                     }
-                }).success(function(response) {
-                    return callback;
+                }).success(function (response) {
+                    return callback(response);
                 });
             },
 
+            submitProjectFromTable: function(project, callback) {
+                $http({
+                    method: 'POST',
+                    url: API + '/projects',
+                    data:{
+                        'cmd': 'table',
+                        'project_name': project.name,
+                        'services': project
+                    }
+                }).success(function (response) {
+                    return callback(response);
+                });
+            },
+            
             // 监控任务
             monitor: function(callback) {
                 $http({
@@ -167,7 +180,7 @@ angular.module('nap.project')
                 $http({
                     method: 'PUT',
                     url: API + '/projects',
-                    params:{
+                    data:{
                         'cmd': 'kill',
                         'project_name': id
                     }
@@ -181,7 +194,7 @@ angular.module('nap.project')
                 $http({
                     method: 'PUT',
                     url: API + '/projects',
-                    params:{
+                    data:{
                         'cmd': 'restart',
                         'project_name': id
                     }

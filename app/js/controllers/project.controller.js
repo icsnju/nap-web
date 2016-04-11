@@ -49,7 +49,8 @@ function($scope, $http, $timeout, $state, $stateParams, $uibModal, Projects) {
 
     // 搜索任务
     $scope.search = function () {
-        $state.go('project', {query: $scope.search_key})
+        console.log($scope.search_key)
+        $state.go('navbar.project', {query: $scope.search_key})
     }
 
     // 打开提交任务的模态框
@@ -129,10 +130,24 @@ var ProjectModalCtrl = function ($scope, $uibModalInstance, Projects) {
     }
 
     $scope.submit = function () {
-        Projects.submitProject($scope.task, function(){
-            // TODO 消息通知
-        });
-        $uibModalInstance.close();
+        console.log($scope.select)
+        if($scope.select == 0){
+            Projects.submitProjectFromTable($scope.task, function(response){
+               //TODO create from table
+            });
+        }
+        else if($scope.select == 1){
+              console.log($scope.project_name + "    " + $scope.url)
+            // Projects.submitProjectFromURL($scope.project_name, $scope.url, function(response){
+            //    //TODO create from url and args
+            // });
+        }else{
+
+        }
+        // Projects.submitProject($scope.task, function(){
+        //     // TODO 消息通知
+        // });
+        // $uibModalInstance.close();
     };
 
     $scope.cancel = function () {
