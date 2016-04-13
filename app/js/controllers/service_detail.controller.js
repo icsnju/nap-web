@@ -138,22 +138,31 @@ detail.controller("yamlCtrl", ['$scope', '$http', '$stateParams', function($scop
 
 }]);
 
-detail.controller("shellCtrl", ['$scope', '$http', '$stateParams', function($scope, $http, $stateParams) {
-    // var project_name = $stateParams.project;
-    // var service_name = $stateParams.service_name;
-    // $http({
-    //     method: 'GET',
-    //     url: API + '/log',
-    //     params: {
-    //         'project_name': project_name,
-    //         'service_name': service_name
-    //     }
-    // }).success(function (data) {
-    //     $scope.yaml = data.logs;
-    // });
+detail.controller("shellCtrl", ['$scope', '$http', '$stateParams', '$sce', function($scope, $http, $stateParams, $sce) {
+    var project_name = $stateParams.project;
+    var service_name = $stateParams.service_name;
+    var service;
 
-    // $http.get('http://114.212.189.147:8080/api/v1.2/docker/cadvisor').success(function (data){
-    //     console.log(data)
-    // });
+    $scope.shell = "";
+
+    $http({
+        method: 'GET',
+        url: API + '/service',
+        params: {
+            'project' : project_name,
+            'service' : service_name
+        }
+    }).success(function(data) {
+        console.log(data.item)
+
+        if('shell' in data.item) {
+            console.log(data.item.ip)
+            $scope.shell = $sce.trustAsResourceUrl("http://" + data.item.ip + ":" + data.item.shell);
+            // $scope.shell = $sce.trustAsResourceUrl('http://114.212.189.147:32943')
+            console.log($scope.shell)
+        }
+    });
+
+    console.log($scope.shell)
 
 }]);
