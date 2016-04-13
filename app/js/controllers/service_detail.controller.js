@@ -45,44 +45,61 @@ detail.controller("mesCtrl", ['$scope', '$http', '$stateParams', 'Services',
 
 detail.controller("cpuCtrl", ['$scope', '$http', '$stateParams', function ($scope, $http, $stateParams) {
 
-	var service_name = $stateParams.service_name.split(".")[1];
-    var project_name = $stateParams.service_name.split(".")[0];
+	var service_name = $stateParams.service_name;
+    var project_name = $stateParams.project;
 
-	$scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
-	$scope.series = ['Series A', 'Series B'];
-	$scope.data = [
-		[28, 48, 40, 19, 86, 27, 90],
-		[30, 49, 40, 9, 86, 27, 90],
-	];
+    $scope.labels = []
+    $scope.series = []
+    $scope.data = []
+
 	setInterval(function(){
-		$http.get('data/status.json').success(function(data) {
-			$scope.series = ['Series A', 'Series B'];
-            $scope.data = [
-                [65, 59, 80, 81, 56, 55, 40],
-                [28, 48, 40, 19, 86, 27, 90]
-			];
-		});
-	},10000)
+		$http.get(API + '/monitor?' + 'cmd=container&' + 'project_name=' + project_name + '&service_name=' + service_name).success(function(response) {
+            $scope.labels = []
+            $scope.series = []
+            $scope.data = []
+
+            var labels = []
+            var data = []
+            for (var i=0; i<response.dic.length && i<10; i++){
+                labels.push(response.dic[i]['timestamp'].split("T")[1].split(".")[0])
+                data.push(response.dic[i]['cpu_usage'])
+            }
+            $scope.series = ['cpu']
+            $scope.labels = labels
+            $scope.data.push(data)
+
+        });
+	},3000)
 }]);
 
-detail.controller("memCtrl", function ($scope, $http) {
+detail.controller("memCtrl", ['$scope', '$http', '$stateParams', function ($scope, $http, $stateParams) {
+    var service_name = $stateParams.service_name;
+    var project_name = $stateParams.project;
 
-	$scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
-	$scope.series = ['Series A', 'Series B'];
-	$scope.data = [
-		[28, 42, 41, 19, 86, 27, 90],
-		[30, 56, 40, 14, 80, 23, 91],
-	];
+    $scope.labels = []
+    $scope.series = []
+    $scope.data = []
+
 	setInterval(function(){
-		$http.get('data/status.json').success(function(data) {
-			$scope.series = ['Series A', 'Series B'];
-            $scope.data = [
-                [65, 59, 80, 81, 56, 55, 40],
-                [22, 44, 49, 12, 81, 22, 94]
-			];
-		});
-	},10000)
-});
+		$http.get(API + '/monitor?' + 'cmd=container&' + 'project_name=' + project_name + '&service_name=' + service_name).success(function(response) {
+            $scope.labels = []
+            $scope.series = []
+            $scope.data = []
+
+            var labels = []
+            var data = []
+            for (var i=0; i<response.dic.length && i<10; i++){
+                labels.push(response.dic[i]['timestamp'].split("T")[1].split(".")[0])
+                data.push(response.dic[i]['memory_usage'])
+            }
+            $scope.series = ['mem']
+            $scope.labels = labels
+            $scope.data.push(data)
+
+        });
+	},3000)
+
+}]);
 
 detail.controller("logCtrl", ['$scope', '$http', '$stateParams', function($scope, $http, $stateParams) {
     var project_name = $stateParams.project;
@@ -115,11 +132,28 @@ detail.controller("yamlCtrl", ['$scope', '$http', '$stateParams', function($scop
     //     $scope.yaml = data.logs;
     // });
 
-    $http({
-        method: 'jsonp',
-        url: 'http://114.212.189.147:8080/api/v1.2/docker/slave1.p2.test'
-    }).success(function (data){
-        console.log(data)
-    });
+    // $http.jsonp('http://114.212.189.147:8080/api/v1.2/docker/cadvisor?jsonp=JSON_CALLBACK').success(function (data){
+    //     console.log(data)
+    // });
+
+}]);
+
+detail.controller("shellCtrl", ['$scope', '$http', '$stateParams', function($scope, $http, $stateParams) {
+    // var project_name = $stateParams.project;
+    // var service_name = $stateParams.service_name;
+    // $http({
+    //     method: 'GET',
+    //     url: API + '/log',
+    //     params: {
+    //         'project_name': project_name,
+    //         'service_name': service_name
+    //     }
+    // }).success(function (data) {
+    //     $scope.yaml = data.logs;
+    // });
+
+    // $http.get('http://114.212.189.147:8080/api/v1.2/docker/cadvisor').success(function (data){
+    //     console.log(data)
+    // });
 
 }]);
