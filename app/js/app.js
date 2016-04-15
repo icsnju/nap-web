@@ -6,7 +6,8 @@ angular.module('nap', [
         'nap.project',
         'nap.service',
         'nap.service_detail',
-        'nap.overview',
+        'nap.machine',
+        'nap.add',
         'nap.auth',
         'ngRoute',
         'ngCookies'
@@ -29,16 +30,19 @@ angular.module('nap', [
                 url: "/project/:project",
                 templateUrl: "/app/js/templates/service.html",
                 controller: ''
-            })
-            .state("navbar.service_detail", {
+            }).state("navbar.add", {
+                url: "/add",
+                templateUrl: "/app/js/templates/add.html",
+                controller: 'addCtrl'
+            }).state("navbar.service_detail", {
                 url: "/project/:project/:service_name",
                 templateUrl: "/app/js/templates/service_detail.html",
                 controller: ''
             })
-            .state("navbar.overview", {
-                url: "/overview",
-                templateUrl: "/app/js/templates/overview.html",
-                controller: ''
+            .state("navbar.machine", {
+                url: "/machine",
+                templateUrl: "/app/js/templates/machine.html",
+                controller: 'machineCtrl'
         });
         //$locationProvider.html5Mode({enabled:true, requireBase:false});
         $locationProvider.html5Mode({enabled: true});

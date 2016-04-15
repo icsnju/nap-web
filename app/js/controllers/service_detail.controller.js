@@ -49,20 +49,20 @@ detail.controller("cpuCtrl", ['$scope', '$http', '$stateParams', function ($scop
     var project_name = $stateParams.project;
 
     $scope.labels = []
-    $scope.series = []
+    $scope.series = ['cpu']
     $scope.data = []
 
 	setInterval(function(){
 		$http.get(API + '/monitor?' + 'cmd=container&' + 'project_name=' + project_name + '&service_name=' + service_name).success(function(response) {
             $scope.labels = []
-            $scope.series = []
+            $scope.series = ['cpu']
             $scope.data = []
 
             var labels = []
             var data = []
-            for (var i=0; i<response.dic.length && i<10; i++){
-                labels.push(response.dic[i]['timestamp'].split("T")[1].split(".")[0])
-                data.push(response.dic[i]['cpu_usage'])
+            for (var i=0; i<response.list.length && i<10; i++){
+                labels.push(response.list[i]['timestamp'].split("T")[1].split(".")[0])
+                data.push(response.list[i]['cpu_usage'])
             }
             $scope.series = ['cpu']
             $scope.labels = labels
@@ -83,16 +83,16 @@ detail.controller("memCtrl", ['$scope', '$http', '$stateParams', function ($scop
 	setInterval(function(){
 		$http.get(API + '/monitor?' + 'cmd=container&' + 'project_name=' + project_name + '&service_name=' + service_name).success(function(response) {
             $scope.labels = []
-            $scope.series = []
+            $scope.series = ['memory']
             $scope.data = []
 
             var labels = []
             var data = []
-            for (var i=0; i<response.dic.length && i<10; i++){
-                labels.push(response.dic[i]['timestamp'].split("T")[1].split(".")[0])
-                data.push(response.dic[i]['memory_usage'])
+            for (var i=0; i<response.list.length && i<10; i++){
+                labels.push(response.list[i]['timestamp'].split("T")[1].split(".")[0])
+                data.push(response.list[i]['memory_usage'])
             }
-            $scope.series = ['mem']
+            $scope.series = ['memory']
             $scope.labels = labels
             $scope.data.push(data)
 

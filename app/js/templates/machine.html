@@ -1,0 +1,52 @@
+<div id="overview" class="animated fadeInRight">
+	<div class="row chartGroup">
+		<h1>Machines</h1>
+		<hr style="margin-top: 5px;"/>
+		<div class="col-sm-4">
+			<h3 style="margin-left:60px">CPU</h3>
+			<canvas id="pcpu" class="chart chart-doughnut" 
+			  chart-data="cpu_data" chart-labels="cpu_labels" chart-legend="false">
+			</canvas>
+		</div>
+		<div class="col-sm-4">
+			<h3 style="margin-left:60px">MEM</h3>
+			<canvas id="pmem" class="chart chart-doughnut"
+			  chart-data="memory_data" chart-labels="memory_labels" chart-legend="false">
+			</canvas> 
+		</div>
+		<div class="col-sm-4">
+			<h3 style="margin-left:60px">DISK</h3>
+			<canvas id="pnet" class="chart chart-doughnut"
+			  chart-data="filesystem_data" chart-labels="filesystem_labels" chart-legend="false">
+			</canvas> 
+		</div>
+	</div>
+	<div class="tableGroup">
+		<div id="tableBack">
+			<div class="table-responsive">
+				<table class="table table-striped">
+					<thead>
+					<tr>
+						<th>IP</th>
+						<th>CPU usage</th>
+						<th>memory usage</th>
+						<th>memory total</th>
+						<th>Disk usage</th>
+						<th>Disk total</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr class="read" ng-repeat="task in data" ng-click="rowClick(task.id)">
+						<td>{{task.ip}}</td>
+						<td class="mail-subject">{{task.cpu_usage}}</td>
+						<td>{{task.memory_usage}}</td>
+						<td>{{task.memory_total}}</td>
+						<td>{{task.filesystem_usage}}</td>
+						<td>{{task.filesystem_total}} MiB</td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
