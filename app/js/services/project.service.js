@@ -1,5 +1,5 @@
 // var API = 'data/list.json';
-var API = 'http://114.212.87.52:9000/app'
+var API = 'http://localhost:9000/app'
 
 angular.module('nap.project')
 

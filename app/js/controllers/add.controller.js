@@ -1,7 +1,7 @@
 /**
  * Created by yuan on 16/4/14.
  */
-var API = "114.212.87.52:9000/app"
+var API = "localhost:9000/app"
 angular.module('nap.add', ['ngResource', 'ui.bootstrap'])
 
     // 模块对话框控制器

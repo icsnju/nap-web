@@ -1,5 +1,5 @@
 'use strict';
-var API = "114.212.87.52:9000/app"
+var API = "localhost:9000/app"
 var overview = angular.module("nap.machine", ["chart.js"]);
 
 overview.controller("machineCtrl", function ($scope, $http, $interval) {
