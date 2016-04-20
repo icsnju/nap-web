@@ -47,11 +47,17 @@
                                                 <div id="serviceSetting{{ index }}"
                                                      class="DockerSetting panel-collapse collapse"
                                                      aria-expanded="true" style="padding-left:60px">
-                                                    <div class="form-group">
-                                                        <label for="name-field" class="control-label">service
-                                                            Name</label>
-                                                        <div><input type="text" id="name-field" ng-model="service.name"
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            <label for="name-field" class="control-label">service
+                                                                Name</label>
+                                                            <div><input type="text" id="name-field" ng-model="service.name"
                                                                     class="form-control">
+                                                            </div>
+                                                        </div>
+                                                            <div class="col-sm-6">
+                                                            <label for="link-field" class="control-label">links</label>
+                                                            <div><input type="'text" id="link-filed" ng-model="service.link" class="form-control"></div>
                                                         </div>
                                                     </div>
                                                     <div class="row">
@@ -105,12 +111,9 @@
                                                                 <div>
                                                                     <select type="text"
                                                                             id="network-field"
-                                                                            ng-model="service.docker_network"
+                                                                            ng-model="service.network"
+                                                                            ng-options="network as network for network in networks"
                                                                             class="form-control">
-                                                                        <option value="HOST">HOST
-                                                                        </option>
-                                                                        <option value="BRIDGE">BRIDGE
-                                                                        </option>
                                                                     </select></div>
                                                             </div>
                                                         </div>

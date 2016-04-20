@@ -1,14 +1,21 @@
 /**
  * Created by yuan on 16/4/14.
  */
-
+var API = "114.212.87.52:9000/app"
 angular.module('nap.add', ['ngResource', 'ui.bootstrap'])
 
     // 模块对话框控制器
-    .controller("addCtrl", function ($scope) {
+    .controller("addCtrl", function ($scope, $http) {
         // 数据初始化
 
         $scope.project_name = "example";
+
+        $http.get(API + "/network?kind=all").success(function(response){
+            console.log($scope.networks)
+            $scope.networks = response.list
+        });
+
+        console.log($scope.networks);
 
         $scope.project = [];
         var service = {
@@ -32,30 +39,8 @@ angular.module('nap.add', ['ngResource', 'ui.bootstrap'])
                 }
             ]
         };
-        var service1 = {
-            cpus: '0.1',
-            mem: '32',
-            disk: '0',
-            docker_image: 'busybox',
-            cmd: 'ls',
-            volumes: [
-                {
-                    container_path: "/data",
-                    host_path: "/vagrant",
-                    mode: "RW"
-                }
-            ],
-            port_mappings: [
-                {
-                    container_port: "8000",
-                    host_port: "8080",
-                    protocol: "TCP"
-                }
-            ]
-        };
 
         $scope.project.push(service);
-        $scope.project.push(service1);
 
         $scope.addService = function () {
             var service1 = {
@@ -115,6 +100,7 @@ angular.module('nap.add', ['ngResource', 'ui.bootstrap'])
             console.log($scope.select)
             if ($scope.select == 0) {
                 //TODO create from table
+                console.log($scope.project)
             }
             else if ($scope.select == 1) {
                 console.log($scope.project_name + "    " + $scope.url)
@@ -124,10 +110,6 @@ angular.module('nap.add', ['ngResource', 'ui.bootstrap'])
             } else {
 
             }
-            // Projects.submitProject($scope.task, function(){
-            //     // TODO 消息通知
-            // });
-            // $uibModalInstance.close();
         };
 
     });

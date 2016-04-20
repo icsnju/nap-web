@@ -72,7 +72,7 @@ detail.controller("cpuCtrl", ['$scope', '$http', '$stateParams', function ($scop
 	},3000)
 }]);
 
-detail.controller("memCtrl", ['$scope', '$http', '$stateParams', function ($scope, $http, $stateParams) {
+detail.controller("memCtrl", ['$scope', '$http', '$stateParams', '$interval', function ($scope, $http, $stateParams, $interval) {
     var service_name = $stateParams.service_name;
     var project_name = $stateParams.project;
 
@@ -80,7 +80,7 @@ detail.controller("memCtrl", ['$scope', '$http', '$stateParams', function ($scop
     $scope.series = []
     $scope.data = []
 
-	setInterval(function(){
+	var timer = $interval(function(){
 		$http.get(API + '/monitor?' + 'cmd=container&' + 'project_name=' + project_name + '&service_name=' + service_name).success(function(response) {
             $scope.labels = []
             $scope.series = ['memory']
@@ -98,6 +98,10 @@ detail.controller("memCtrl", ['$scope', '$http', '$stateParams', function ($scop
 
         });
 	},3000)
+    
+    $scope.$on("$destroy", function(){
+       $interval.cancel(timer); 
+    });
 
 }]);
 

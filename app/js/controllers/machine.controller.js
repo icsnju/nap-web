@@ -2,16 +2,17 @@
 var API = "114.212.87.52:9000/app"
 var overview = angular.module("nap.machine", ["chart.js"]);
 
-overview.controller("machineCtrl", function ($scope, $http) {
+overview.controller("machineCtrl", function ($scope, $http, $interval) {
 
     $scope.cpu_labels = ['cpu usage', 'cpu remain'];
     $scope.memory_labels = ['memory usage', 'memory remain'];
     $scope.filesystem_labels = ['filesystem usage', 'filesystem total'];
 
-    setInterval(function(){
+    var timer = $interval(function(){
         $http.get(API + "/monitor?cmd=" + "machine").success(function (response) {
             $scope.data = response.list
 
+            console.log("here")
             var cpu_usage = 0;
             var memory_usage = 0;
             var memory_total = 0;
@@ -41,5 +42,10 @@ overview.controller("machineCtrl", function ($scope, $http) {
             $scope.filesystem_data = [filesystem_usage, filesystem_total - filesystem_usage];
 
         })
-    }, 3000)
+    }, 3000);
+
+    $scope.$on("$destroy", function() {
+    	$interval.cancel(timer);
+        timer = undefined;
+    })
 });
