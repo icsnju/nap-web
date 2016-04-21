@@ -1,6 +1,6 @@
 'use strict';
 
-var API = 'http://localhost:9000/app/'
+var API = 'http://114.212.189.147:9000/app/'
 
 var detail = angular.module('nap.service_detail',['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 'chart.js', 'ui.router']);
 

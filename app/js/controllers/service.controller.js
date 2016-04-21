@@ -2,7 +2,7 @@
  * Created by yuan on 16/4/2.
  */
 
-var API = 'http://localhost:9000/app'
+var API = 'http://114.212.189.147:9000/app'
 
 var FILTER_NAME = ['All', 'Running', 'Finished', 'Failed', 'Killed', 'Lost', 'Staging', 'Error'];
 
