@@ -97,13 +97,30 @@ angular.module('nap.add', ['ngResource', 'ui.bootstrap'])
         };
 
         $scope.submit = function () {
-            console.log($scope.select)
+            console.log($scope.select);
             if ($scope.select == 0) {
                 //TODO create from table
-                console.log($scope.project)
+                console.log($scope.project);
             }
             else if ($scope.select == 1) {
-                console.log($scope.project_name + "    " + $scope.url)
+                console.log($scope.project_name + "    " + $scope.url);
+
+                $http({
+                    method: 'POST',
+                    url: API + '/projects',
+                    data: {
+                        'cmd': 'url',
+                        'project_name': $scope.project_name,
+                        'url': $scope.url
+                    },
+                }).success(function(response) {
+                    console.log(response)
+                }).error(function(response){
+                    console.log(response)
+                });
+
+                $state.go('navbar.project');
+
                 // Projects.submitProjectFromURL($scope.project_name, $scope.url, function(response){
                 //    //TODO create from url and args
                 // });

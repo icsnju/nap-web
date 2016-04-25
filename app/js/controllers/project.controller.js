@@ -41,6 +41,7 @@ angular.module('nap.project', ['ngResource', 'ui.bootstrap'])
             // 删除任务
             $scope.delete = function (project) {
                 Projects.deleteProject(project[0], reload($scope.query));
+                $state.go('navbar.project');
             }
 
             //重启任务

@@ -48,28 +48,44 @@ detail.controller("cpuCtrl", ['$scope', '$http', '$stateParams', '$interval', fu
     var service_name = $stateParams.service_name;
     var project_name = $stateParams.project;
 
-    $scope.labels = []
-    $scope.series = ['cpu']
-    $scope.data = []
+    $scope.labels = [];
+    $scope.series = ['cpu'];
+    $scope.data = [];
+
+    $http.get(API + '/monitor?' + 'cmd=container&' + 'project_name=' + project_name + '&service_name=' + service_name).success(function (response) {
+        $scope.labels = [];
+        $scope.series = ['cpu'];
+        $scope.data = [];
+
+        var labels = [];
+        var data = [];
+        for (var i = 0; i < response.list.length && i < 10; i++) {
+            labels.push(response.list[i]['timestamp'].split("T")[1].split(".")[0]);
+            data.push(response.list[i]['cpu_usage']);
+        }
+        $scope.series = ['cpu'];
+        $scope.labels = labels;
+        $scope.data.push(data);
+    });
 
     var timer = $interval(function () {
         $http.get(API + '/monitor?' + 'cmd=container&' + 'project_name=' + project_name + '&service_name=' + service_name).success(function (response) {
-            $scope.labels = []
-            $scope.series = ['cpu']
-            $scope.data = []
+            $scope.labels = [];
+            $scope.series = ['cpu'];
+            $scope.data = [];
 
-            var labels = []
-            var data = []
+            var labels = [];
+            var data = [];
             for (var i = 0; i < response.list.length && i < 10; i++) {
-                labels.push(response.list[i]['timestamp'].split("T")[1].split(".")[0])
-                data.push(response.list[i]['cpu_usage'])
+                labels.push(response.list[i]['timestamp'].split("T")[1].split(".")[0]);
+                data.push(response.list[i]['cpu_usage']);
             }
-            $scope.series = ['cpu']
-            $scope.labels = labels
-            $scope.data.push(data)
+            $scope.series = ['cpu'];
+            $scope.labels = labels;
+            $scope.data.push(data);
 
         });
-    }, 3000)
+    }, 3000);
 
     $scope.$on("$destroy", function () {
         $interval.cancel(timer);
@@ -82,28 +98,44 @@ detail.controller("memCtrl", ['$scope', '$http', '$stateParams', '$interval', fu
     var service_name = $stateParams.service_name;
     var project_name = $stateParams.project;
 
-    $scope.labels = []
-    $scope.series = []
-    $scope.data = []
+    $scope.labels = [];
+    $scope.series = [];
+    $scope.data = [];
+
+    $http.get(API + '/monitor?' + 'cmd=container&' + 'project_name=' + project_name + '&service_name=' + service_name).success(function (response) {
+        $scope.labels = [];
+        $scope.series = ['cpu'];
+        $scope.data = [];
+
+        var labels = [];
+        var data = [];
+        for (var i = 0; i < response.list.length && i < 10; i++) {
+            labels.push(response.list[i]['timestamp'].split("T")[1].split(".")[0]);
+            data.push(response.list[i]['cpu_usage']);
+        }
+        $scope.series = ['cpu'];
+        $scope.labels = labels;
+        $scope.data.push(data);
+    });
 
     var timer = $interval(function () {
         $http.get(API + '/monitor?' + 'cmd=container&' + 'project_name=' + project_name + '&service_name=' + service_name).success(function (response) {
-            $scope.labels = []
-            $scope.series = ['memory']
-            $scope.data = []
+            $scope.labels = [];
+            $scope.series = ['memory'];
+            $scope.data = [];
 
-            var labels = []
-            var data = []
+            var labels = [];
+            var data = [];
             for (var i = 0; i < response.list.length && i < 10; i++) {
-                labels.push(response.list[i]['timestamp'].split("T")[1].split(".")[0])
-                data.push(response.list[i]['memory_usage'])
+                labels.push(response.list[i]['timestamp'].split("T")[1].split(".")[0]);
+                data.push(response.list[i]['memory_usage']);
             }
-            $scope.series = ['memory']
-            $scope.labels = labels
-            $scope.data.push(data)
+            $scope.series = ['memory'];
+            $scope.labels = labels;
+            $scope.data.push(data);
 
         });
-    }, 3000)
+    }, 3000);
 
     $scope.$on("$destroy", function () {
         $interval.cancel(timer);
@@ -163,16 +195,16 @@ detail.controller("shellCtrl", ['$scope', '$http', '$stateParams', '$sce', funct
             'service': service_name
         }
     }).success(function (data) {
-        console.log(data.item)
+        console.log(data.item);
 
         if ('shell' in data.item) {
-            console.log(data.item.ip)
+            console.log(data.item.ip);
             $scope.shell = $sce.trustAsResourceUrl("http://" + data.item.ip + ":" + data.item.shell);
             // $scope.shell = $sce.trustAsResourceUrl('http://114.212.189.147:32943')
-            console.log($scope.shell)
+            console.log($scope.shell);
         }
     });
 
-    console.log($scope.shell)
+    console.log($scope.shell);
 
 }]);

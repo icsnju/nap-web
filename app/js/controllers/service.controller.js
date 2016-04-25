@@ -8,47 +8,57 @@ var FILTER_NAME = ['All', 'Running', 'Finished', 'Failed', 'Killed', 'Lost', 'St
 
 var service_controller = angular.module('nap.service', ['ngResource', 'ui.bootstrap']);
 
-service_controller.controller('DetailCtrl', ['$scope', '$state', '$http', '$stateParams', 'Projects', 'Services',
-	function($scope, $state, $http, $stateParams, Projects, Services){
-	//	console.log($stateParams.taskID);
-	//	Tasks.refresh();
-	//	$scope.data = Tasks.getById($stateParams.taskID);
+service_controller.controller('DetailCtrl', ['$scope', '$state', '$http', '$stateParams', '$interval', 'Projects', 'Services',
+    function ($scope, $state, $http, $stateParams, $interval, Projects, Services) {
+        //	console.log($stateParams.taskID);
+        //	Tasks.refresh();
+        //	$scope.data = Tasks.getById($stateParams.taskID);
         $scope.project_name = $stateParams.project;
 
         $scope.query = $stateParams.query || "all";
 
-        console.log("detail project name: " + $scope.project_name)
-        console.log($stateParams.project)
-
-        $scope.data = $http.get(API + '/projects/' + $scope.project_name)
-            .success(function(response){
+        $http.get(API + '/projects/' + $scope.project_name)
+            .success(function (response) {
                 $scope.data = response.item
-            })
+            });
 
-        Services.refresh($scope.project_name).$promise.then(function(response) {
+        var timer = $interval(function () {
+            $http.get(API + '/projects/' + $scope.project_name)
+                .success(function (response) {
+                    $scope.data = response.item
+                });
+        }, 3000);
+
+        $scope.$on("$destroy", function () {
+            $interval.cancel(timer);
+            timer = undefined;
+        });
+
+
+        Services.refresh($scope.project_name).$promise.then(function (response) {
             $scope.len = Services.getServices($scope.project_name, $scope.query).length
-        })
+        });
 
-        $scope.kill = function(project){
+        $scope.kill = function (project) {
             Projects.killProject(project[0], reload());
-        }
+        };
 
-        $scope.restart = function(project){
+        $scope.restart = function (project) {
             Projects.restartProject(project[0], reload());
-        }
+        };
 
-        $scope.delete = function(project){
+        $scope.delete = function (project) {
             Projects.deleteProject(project[0], reload());
-        }
+        };
 
-        var reload = function(){
+        var reload = function () {
             $state.go('navbar.project')
-        }
+        };
 
         // $http.get('data/ID.json').success(function(data) {
-		// 	$scope.data = data.result;
-		// });
-	}
+        // 	$scope.data = data.result;
+        // });
+    }
 ]);
 
 service_controller.controller('ServiceCtrl', [
@@ -58,36 +68,59 @@ service_controller.controller('ServiceCtrl', [
     '$state',
     '$stateParams',
     '$uibModal',
+    '$interval',
     'Services',
-function($scope, $http, $timeout, $state, $stateParams, $uibModal, Services) {
-    $scope.query = $stateParams.query || "all";
-    $scope.filter = $scope.query
-    var project_name = $stateParams.project.split(",")[0]
+    function ($scope, $http, $timeout, $state, $stateParams, $uibModal, $interval, Services) {
+        $scope.query = $stateParams.query || "all";
+        $scope.filter = $scope.query
+        var project_name = $stateParams.project.split(",")[0]
 
-    // 加载数据
-    var reload = function (query) {
-        Services.refresh(project_name).$promise.then(function(response) {
-            //TODO 错误处理
+        // 加载数据
+        var reload = function (query) {
+            Services.refresh(project_name).$promise.then(function (response) {
+                //TODO 错误处理
 
-            $scope.services = Services.getServices(project_name, query)
+                $scope.services = Services.getServices(project_name, query)
+            });
+        }
+
+        // 搜索任务
+        $scope.search = function () {
+            $state.go('service', {query: $scope.search_key})
+        }
+
+        $scope.rowClick = function (serviceID) {
+            console.log('goto service_detail')
+            $state.go('navbar.service_detail', {project: project_name, service_name: serviceID});
+        };
+
+        $http({
+            method: 'GET',
+            url: API + '/services',
+            params: {
+                'project': project_name
+            }
+        }).success(function (response) {
+            $scope.services = response.services;
         });
-    }
 
-    // 搜索任务
-    $scope.search = function () {
-        $state.go('service', {query: $scope.search_key})
-    }
+        // 加载任务, 定时监控
+        reload($scope.query);
+        var timer = $interval(function () {
+            $http({
+                method: 'GET',
+                url: API + '/services',
+                params: {
+                    'project': project_name
+                }
+            }).success(function (response) {
+                $scope.services = response.services;
+            });
+        }, 3000);
 
-    $scope.rowClick = function(serviceID){
-        console.log('goto service_detail')
-		$state.go('navbar.service_detail',{project: project_name, service_name: serviceID});
-	};
-
-    // 加载任务, 定时监控
-    reload($scope.query);
-    // setInterval(function(){
-    //     console.warn("interval project name: " + project_name)
-    //     Services.monitor(project_name, reload($scope.query))
-    // },10000)
-}]);
+        $scope.$on("$destroy", function () {
+            $interval.cancel(timer);
+            timer = undefined;
+        });
+    }]);
 

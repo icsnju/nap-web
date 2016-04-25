@@ -132,10 +132,6 @@ angular.module('nap.service')
                     }
                 }).success(function(response) {
                     services = response.services;
-                    console.log("===========");
-                    console.log(services);
-                    console.log(response);
-                    console.log(project_name);
                     return callback && callback(response);
                 });
             },
