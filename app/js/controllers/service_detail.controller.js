@@ -2,15 +2,15 @@
 
 var API = 'http://114.212.189.147:9000/app/'
 
-var detail = angular.module('nap.service_detail',['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 'chart.js', 'ui.router']);
+var detail = angular.module('nap.service_detail', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 'chart.js', 'ui.router']);
 
 detail.controller("mesCtrl", ['$scope', '$http', '$stateParams', 'Services',
-	function($scope, $http, $stateParams, Services){
-	//	console.log($stateParams.taskID);
-	//	Tasks.refresh();
-	//	$scope.data = Tasks.getById($stateParams.taskID);
+    function ($scope, $http, $stateParams, Services) {
+        //	console.log($stateParams.taskID);
+        //	Tasks.refresh();
+        //	$scope.data = Tasks.getById($stateParams.taskID);
 
-		var service_name = $stateParams.service_name;
+        var service_name = $stateParams.service_name;
         var project_name = $stateParams.project;
         $scope.project_name = $stateParams.project;
         $scope.service_name = $stateParams.service_name;
@@ -19,48 +19,48 @@ detail.controller("mesCtrl", ['$scope', '$http', '$stateParams', 'Services',
 
         $scope.data = {'id': ''};
 
-		$http({
+        $http({
             method: 'GET',
             url: API + '/service',
             params: {
-                'project' : project_name,
-                'service' : service_name
+                'project': project_name,
+                'service': service_name
             }
-        }).success(function(data) {
-			$scope.data = data.item;
-		});
-        
+        }).success(function (data) {
+            $scope.data = data.item;
+        });
+
         $scope.short_id = function (id) {
             var rel = "";
-            if(id.length <= 10)
+            if (id.length <= 10)
                 return id;
-            for (var i=0; i<10; i++){
+            for (var i = 0; i < 10; i++) {
                 rel += id[i];
             }
             return rel;
         }
-        
-	}
+
+    }
 ]);
 
-detail.controller("cpuCtrl", ['$scope', '$http', '$stateParams', function ($scope, $http, $stateParams) {
+detail.controller("cpuCtrl", ['$scope', '$http', '$stateParams', '$interval', function ($scope, $http, $stateParams, $interval) {
 
-	var service_name = $stateParams.service_name;
+    var service_name = $stateParams.service_name;
     var project_name = $stateParams.project;
 
     $scope.labels = []
     $scope.series = ['cpu']
     $scope.data = []
 
-	setInterval(function(){
-		$http.get(API + '/monitor?' + 'cmd=container&' + 'project_name=' + project_name + '&service_name=' + service_name).success(function(response) {
+    var timer = $interval(function () {
+        $http.get(API + '/monitor?' + 'cmd=container&' + 'project_name=' + project_name + '&service_name=' + service_name).success(function (response) {
             $scope.labels = []
             $scope.series = ['cpu']
             $scope.data = []
 
             var labels = []
             var data = []
-            for (var i=0; i<response.list.length && i<10; i++){
+            for (var i = 0; i < response.list.length && i < 10; i++) {
                 labels.push(response.list[i]['timestamp'].split("T")[1].split(".")[0])
                 data.push(response.list[i]['cpu_usage'])
             }
@@ -69,7 +69,13 @@ detail.controller("cpuCtrl", ['$scope', '$http', '$stateParams', function ($scop
             $scope.data.push(data)
 
         });
-	},3000)
+    }, 3000)
+
+    $scope.$on("$destroy", function () {
+        $interval.cancel(timer);
+        timer = undefined;
+    })
+
 }]);
 
 detail.controller("memCtrl", ['$scope', '$http', '$stateParams', '$interval', function ($scope, $http, $stateParams, $interval) {
@@ -80,15 +86,15 @@ detail.controller("memCtrl", ['$scope', '$http', '$stateParams', '$interval', fu
     $scope.series = []
     $scope.data = []
 
-	var timer = $interval(function(){
-		$http.get(API + '/monitor?' + 'cmd=container&' + 'project_name=' + project_name + '&service_name=' + service_name).success(function(response) {
+    var timer = $interval(function () {
+        $http.get(API + '/monitor?' + 'cmd=container&' + 'project_name=' + project_name + '&service_name=' + service_name).success(function (response) {
             $scope.labels = []
             $scope.series = ['memory']
             $scope.data = []
 
             var labels = []
             var data = []
-            for (var i=0; i<response.list.length && i<10; i++){
+            for (var i = 0; i < response.list.length && i < 10; i++) {
                 labels.push(response.list[i]['timestamp'].split("T")[1].split(".")[0])
                 data.push(response.list[i]['memory_usage'])
             }
@@ -97,32 +103,32 @@ detail.controller("memCtrl", ['$scope', '$http', '$stateParams', '$interval', fu
             $scope.data.push(data)
 
         });
-	},3000)
-    
-    $scope.$on("$destroy", function(){
-       $interval.cancel(timer); 
+    }, 3000)
+
+    $scope.$on("$destroy", function () {
+        $interval.cancel(timer);
     });
 
 }]);
 
-detail.controller("logCtrl", ['$scope', '$http', '$stateParams', function($scope, $http, $stateParams) {
+detail.controller("logCtrl", ['$scope', '$http', '$stateParams', function ($scope, $http, $stateParams) {
     var project_name = $stateParams.project;
     var service_name = $stateParams.service_name;
     console.log(project_name);
-   $http({
-       method: 'GET',
-       url: API + '/log',
-       params:{
-           'project_name': project_name,
-           'service_name': service_name
-       }
-   }).success(function(data){
-       // $scope.log = data.logs.replace(/\r\n/, '<br>');
-       $scope.log = data.logs
-   });
+    $http({
+        method: 'GET',
+        url: API + '/log',
+        params: {
+            'project_name': project_name,
+            'service_name': service_name
+        }
+    }).success(function (data) {
+        // $scope.log = data.logs.replace(/\r\n/, '<br>');
+        $scope.log = data.logs
+    });
 }]);
 
-detail.controller("yamlCtrl", ['$scope', '$http', '$stateParams', function($scope, $http, $stateParams) {
+detail.controller("yamlCtrl", ['$scope', '$http', '$stateParams', function ($scope, $http, $stateParams) {
     // var project_name = $stateParams.project;
     // var service_name = $stateParams.service_name;
     // $http({
@@ -142,7 +148,7 @@ detail.controller("yamlCtrl", ['$scope', '$http', '$stateParams', function($scop
 
 }]);
 
-detail.controller("shellCtrl", ['$scope', '$http', '$stateParams', '$sce', function($scope, $http, $stateParams, $sce) {
+detail.controller("shellCtrl", ['$scope', '$http', '$stateParams', '$sce', function ($scope, $http, $stateParams, $sce) {
     var project_name = $stateParams.project;
     var service_name = $stateParams.service_name;
     var service;
@@ -153,13 +159,13 @@ detail.controller("shellCtrl", ['$scope', '$http', '$stateParams', '$sce', funct
         method: 'GET',
         url: API + '/service',
         params: {
-            'project' : project_name,
-            'service' : service_name
+            'project': project_name,
+            'service': service_name
         }
-    }).success(function(data) {
+    }).success(function (data) {
         console.log(data.item)
 
-        if('shell' in data.item) {
+        if ('shell' in data.item) {
             console.log(data.item.ip)
             $scope.shell = $sce.trustAsResourceUrl("http://" + data.item.ip + ":" + data.item.shell);
             // $scope.shell = $sce.trustAsResourceUrl('http://114.212.189.147:32943')
