@@ -45,7 +45,6 @@ overview.controller("machineCtrl", function ($scope, $http, $interval) {
         $http.get(API + "/monitor?cmd=" + "machine").success(function (response) {
             $scope.data = response.list
 
-            console.log("here")
             var cpu_usage = 0;
             var memory_usage = 0;
             var memory_total = 0;

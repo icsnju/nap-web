@@ -51,7 +51,6 @@ angular.module('nap.project', ['ngResource', 'ui.bootstrap'])
 
             // 搜索任务
             $scope.search = function () {
-                console.log($scope.search_key)
                 $state.go('navbar.project', {query: $scope.search_key})
             }
 
@@ -61,7 +60,6 @@ angular.module('nap.project', ['ngResource', 'ui.bootstrap'])
             }
 
             $scope.rowClick = function (project) {
-                console.warn("project project name: " + project)
                 $state.go('navbar.service', {project: project});
             };
 

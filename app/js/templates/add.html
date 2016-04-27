@@ -66,7 +66,7 @@
                                                                 <label for="cpus-field"
                                                                        class="control-label">Cpus</label>
                                                                 <div><input type="text" id="cpus-field"
-                                                                            ng-model="service.cpus"
+                                                                            ng-model="service.cpu_shares"
                                                                             class="form-control"></div>
                                                             </div>
                                                         </div>
@@ -75,7 +75,7 @@
                                                                 <label for="mem-field"
                                                                        class="control-label">Memory(MB)</label>
                                                                 <div><input type="text" id="mem-field"
-                                                                            ng-model="service.mem"
+                                                                            ng-model="service.mem_limit"
                                                                             class="form-control"></div>
                                                             </div>
                                                         </div>
@@ -91,7 +91,7 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="cmd-field" class="control-label">Command</label>
-                                                        <div><textarea type="text" id="cmd-field" ng-model="service.cmd"
+                                                        <div><textarea type="text" id="cmd-field" ng-model="service.command"
                                                                        class="form-control"></textarea></div>
                                                     </div>
                                                     <div class="row">
@@ -100,7 +100,7 @@
                                                                 <label for="image-field"
                                                                        class="control-label">Image</label>
                                                                 <div><input type="text" id="image-field"
-                                                                            ng-model="service.docker_image"
+                                                                            ng-model="service.image"
                                                                             class="form-control"></div>
                                                             </div>
                                                         </div>
@@ -120,7 +120,7 @@
                                                     </div>
                                                     <h4>Port Mappings</h4>
                                                     <div class="row duplicable-row"
-                                                         ng-repeat="(pos, port_mapping) in service.port_mappings">
+                                                         ng-repeat="(pos, port_mapping) in service.ports">
                                                         <div class="col-sm-4">
                                                             <div class="form-group">
                                                                 <label class="control-label">Container
@@ -147,8 +147,8 @@
                                                                 <div><select type="text"
                                                                              ng-model="port_mapping.protocol"
                                                                              class="form-control">
-                                                                    <option value="TCP">TCP</option>
-                                                                    <option value="UDP">UDP</option>
+                                                                    <option value="tcp">TCP</option>
+                                                                    <option value="udp">UDP</option>
                                                                 </select></div>
                                                             </div>
                                                             <div class="controls">
@@ -188,9 +188,9 @@
                                                                 <div><select type="text"
                                                                              ng-model="volume.mode"
                                                                              class="form-control">
-                                                                    <option value="RO">Read Only
+                                                                    <option value="ro">Read Only
                                                                     </option>
-                                                                    <option value="RW">Read and Write
+                                                                    <option value="rw">Read and Write
                                                                     </option>
                                                                 </select></div>
                                                             </div>

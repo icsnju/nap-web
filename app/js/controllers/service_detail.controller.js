@@ -15,8 +15,6 @@ detail.controller("mesCtrl", ['$scope', '$http', '$stateParams', 'Services',
         $scope.project_name = $stateParams.project;
         $scope.service_name = $stateParams.service_name;
 
-        console.log('mesctrl in service detail' + project_name + service_name)
-
         $scope.data = {'id': ''};
 
         $http({
@@ -146,7 +144,6 @@ detail.controller("memCtrl", ['$scope', '$http', '$stateParams', '$interval', fu
 detail.controller("logCtrl", ['$scope', '$http', '$stateParams', function ($scope, $http, $stateParams) {
     var project_name = $stateParams.project;
     var service_name = $stateParams.service_name;
-    console.log(project_name);
     $http({
         method: 'GET',
         url: API + '/log',
@@ -195,16 +192,11 @@ detail.controller("shellCtrl", ['$scope', '$http', '$stateParams', '$sce', funct
             'service': service_name
         }
     }).success(function (data) {
-        console.log(data.item);
 
         if ('shell' in data.item) {
-            console.log(data.item.ip);
             $scope.shell = $sce.trustAsResourceUrl("http://" + data.item.ip + ":" + data.item.shell);
             // $scope.shell = $sce.trustAsResourceUrl('http://114.212.189.147:32943')
-            console.log($scope.shell);
         }
     });
-
-    console.log($scope.shell);
 
 }]);

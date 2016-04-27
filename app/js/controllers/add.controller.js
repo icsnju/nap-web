@@ -5,37 +5,34 @@ var API = "http://114.212.189.147:9000/app"
 angular.module('nap.add', ['ngResource', 'ui.bootstrap'])
 
     // 模块对话框控制器
-    .controller("addCtrl", function ($scope, $http) {
+    .controller("addCtrl", function ($scope, $http, $state) {
         // 数据初始化
 
         $scope.project_name = "example";
 
         $http.get(API + "/network?kind=all").success(function(response){
-            console.log($scope.networks)
-            $scope.networks = response.list
+            $scope.networks = response.list;
         });
-
-        console.log($scope.networks);
 
         $scope.project = [];
         var service = {
-            cpus: '0.1',
-            mem: '32',
+            cpu_shares: '0.1',
+            mem_limit: '32',
             disk: '0',
-            docker_image: 'busybox',
-            cmd: 'ls',
+            image: 'busybox',
+            command: 'ls',
             volumes: [
                 {
                     container_path: "/data",
                     host_path: "/vagrant",
-                    mode: "RW"
+                    mode: "rw"
                 }
             ],
-            port_mappings: [
+            ports: [
                 {
                     container_port: "8000",
                     host_port: "8080",
-                    protocol: "TCP"
+                    protocol: "tcp"
                 }
             ]
         };
@@ -44,23 +41,23 @@ angular.module('nap.add', ['ngResource', 'ui.bootstrap'])
 
         $scope.addService = function () {
             var service1 = {
-                cpus: '0.1',
-                mem: '32',
+                cpu_shares: '0.1',
+                mem_limit: '32',
                 disk: '0',
-                docker_image: 'busybox',
-                cmd: 'ls',
+                image: 'busybox',
+                command: 'ls',
                 volumes: [
                     {
                         container_path: "/data",
                         host_path: "/vagrant",
-                        mode: "RW"
+                        mode: "rw"
                     }
                 ],
                 port_mappings: [
                     {
                         container_port: "8000",
                         host_port: "8080",
-                        protocol: "TCP"
+                        protocol: "tcp"
                     }
                 ]
             };
@@ -73,22 +70,22 @@ angular.module('nap.add', ['ngResource', 'ui.bootstrap'])
         };
 
         $scope.addPortMapping = function (index) {
-            $scope.project[index].port_mappings.push({
+            $scope.project[index].ports.push({
                 container_port: "8000",
                 host_port: "8080",
-                protocol: "TCP"
+                protocol: "tcp"
             })
         };
 
         $scope.deletePortMapping = function (index, pos) {
-            $scope.project[index].port_mappings.splice(pos, 1);
+            $scope.project[index].ports.splice(pos, 1);
         };
 
         $scope.addVolume = function (index) {
             $scope.project[index].volumes.push({
                 container_path: "/data",
                 host_path: "/vagrant",
-                mode: "RW"
+                mode: "rw"
             })
         };
 
@@ -97,14 +94,22 @@ angular.module('nap.add', ['ngResource', 'ui.bootstrap'])
         };
 
         $scope.submit = function () {
-            console.log($scope.select);
             if ($scope.select == 0) {
                 //TODO create from table
                 console.log($scope.project);
+                $http({
+                    method: 'POST',
+                    url: API + '/projects',
+                    data: {
+                        'cmd': 'table',
+                        'project_name': $scope.project_name,
+                        'table': $scope.project
+                    }
+                }).success(function(response){
+                    console.log(response)
+                })
             }
             else if ($scope.select == 1) {
-                console.log($scope.project_name + "    " + $scope.url);
-
                 $http({
                     method: 'POST',
                     url: API + '/projects',
@@ -121,9 +126,6 @@ angular.module('nap.add', ['ngResource', 'ui.bootstrap'])
 
                 $state.go('navbar.project');
 
-                // Projects.submitProjectFromURL($scope.project_name, $scope.url, function(response){
-                //    //TODO create from url and args
-                // });
             } else {
 
             }

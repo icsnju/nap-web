@@ -90,7 +90,6 @@ service_controller.controller('ServiceCtrl', [
         }
 
         $scope.rowClick = function (serviceID) {
-            console.log('goto service_detail')
             $state.go('navbar.service_detail', {project: project_name, service_name: serviceID});
         };
 
