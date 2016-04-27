@@ -15,9 +15,9 @@ $(document).ready(function() {
     // 边栏缩小
     $(document).on("click", ".navbar-minimalize", function() {
         if($("body").hasClass("mini-navbar"))
-            $(".change-img").attr("src", "images/logo");
+            $(".change-img").attr("src", "images/logo_mini.png");
         else
-            $(".change-img").attr("src", "images/logo_big");
+            $(".change-img").attr("src", "images/logo_big.png");
         $("body").toggleClass("mini-navbar");
         SmoothlyMenu();
     });
