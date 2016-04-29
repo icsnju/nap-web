@@ -37,7 +37,7 @@ detail.controller("mesCtrl", ['$scope', '$http', '$stateParams', 'Services',
             }
             return rel;
         }
-
+        
     }
 ]);
 
@@ -89,6 +89,10 @@ detail.controller("cpuCtrl", ['$scope', '$http', '$stateParams', '$interval', fu
         $interval.cancel(timer);
         timer = undefined;
     })
+    
+    $scope.options = {
+            animation: false
+        }
 
 }]);
 
@@ -138,6 +142,10 @@ detail.controller("memCtrl", ['$scope', '$http', '$stateParams', '$interval', fu
     $scope.$on("$destroy", function () {
         $interval.cancel(timer);
     });
+    
+    $scope.options = {
+        animation: false
+    }
 
 }]);
 
