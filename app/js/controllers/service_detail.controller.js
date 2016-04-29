@@ -152,17 +152,24 @@ detail.controller("memCtrl", ['$scope', '$http', '$stateParams', '$interval', fu
 detail.controller("logCtrl", ['$scope', '$http', '$stateParams', function ($scope, $http, $stateParams) {
     var project_name = $stateParams.project;
     var service_name = $stateParams.service_name;
-    $http({
-        method: 'GET',
-        url: API + '/log',
-        params: {
-            'project_name': project_name,
-            'service_name': service_name
-        }
-    }).success(function (data) {
-        // $scope.log = data.logs.replace(/\r\n/, '<br>');
-        $scope.log = data.logs
+    var timer = $interval(function() {
+        $http({
+            method: 'GET',
+            url: API + '/log',
+            params: {
+                'project_name': project_name,
+                'service_name': service_name
+            }
+        }).success(function (data) {
+            // $scope.log = data.logs.replace(/\r\n/, '<br>');
+            $scope.log = data.logs
+        });
+    }, 3000);
+
+    $scope.$on("$destroy", function () {
+        $interval.cancel(timer);
     });
+
 }]);
 
 detail.controller("yamlCtrl", ['$scope', '$http', '$stateParams', function ($scope, $http, $stateParams) {
