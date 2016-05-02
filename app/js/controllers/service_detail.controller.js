@@ -149,7 +149,7 @@ detail.controller("memCtrl", ['$scope', '$http', '$stateParams', '$interval', fu
 
 }]);
 
-detail.controller("logCtrl", ['$scope', '$http', '$stateParams', function ($scope, $http, $stateParams) {
+detail.controller("logCtrl", ['$scope', '$http', '$stateParams', '$interval', function ($scope, $http, $stateParams, $interval) {
     var project_name = $stateParams.project;
     var service_name = $stateParams.service_name;
     var timer = $interval(function() {
@@ -173,22 +173,16 @@ detail.controller("logCtrl", ['$scope', '$http', '$stateParams', function ($scop
 }]);
 
 detail.controller("yamlCtrl", ['$scope', '$http', '$stateParams', function ($scope, $http, $stateParams) {
-    // var project_name = $stateParams.project;
-    // var service_name = $stateParams.service_name;
-    // $http({
-    //     method: 'GET',
-    //     url: API + '/log',
-    //     params: {
-    //         'project_name': project_name,
-    //         'service_name': service_name
-    //     }
-    // }).success(function (data) {
-    //     $scope.yaml = data.logs;
-    // });
-
-    // $http.jsonp('http://114.212.189.147:8080/api/v1.2/docker/cadvisor?jsonp=JSON_CALLBACK').success(function (data){
-    //     console.log(data)
-    // });
+    var project_name = $stateParams.project;
+    $http({
+        method: 'GET',
+        url: API + '/yaml',
+        params: {
+            'project_name': project_name,
+        }
+    }).success(function (data) {
+        $scope.yaml = data.yaml;
+    });
 
 }]);
 
