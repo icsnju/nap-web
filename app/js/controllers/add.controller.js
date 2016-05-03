@@ -5,12 +5,12 @@ var API = "http://114.212.189.147:9000/app"
 angular.module('nap.add', ['ngResource', 'ui.bootstrap'])
 
     // 模块对话框控制器
-    .controller("addCtrl", function ($scope, $http, $state) {
+    .controller("addCtrl", function ($scope, $http, $state, $mdDialog) {
         // 数据初始化
 
         $scope.project_name = "example";
 
-        $http.get(API + "/network?kind=all").success(function(response){
+        $http.get(API + "/network?kind=all").success(function (response) {
             $scope.networks = response.list;
         });
 
@@ -61,7 +61,7 @@ angular.module('nap.add', ['ngResource', 'ui.bootstrap'])
                     }
                 ]
             };
-            
+
             $scope.project.push(service1);
         };
 
@@ -93,7 +93,7 @@ angular.module('nap.add', ['ngResource', 'ui.bootstrap'])
             $scope.project[index].volumes.splice(pos, 1);
         };
 
-        $scope.submit = function () {
+        $scope.submit = function (e) {
             if ($scope.select == 0) {
                 //TODO create from table
                 console.log($scope.project);
@@ -105,8 +105,13 @@ angular.module('nap.add', ['ngResource', 'ui.bootstrap'])
                         'project_name': $scope.project_name,
                         'table': $scope.project
                     }
-                }).success(function(response){
-                    console.log(response)
+                }).success(function (response) {
+                    $mdDialog.show($mdDialog.confirm()
+                        .ok('ok')
+                        .targetEvent(e)
+                        .title('log')
+                        .textContent(response.log)
+                    );
                 })
             }
             else if ($scope.select == 1) {
@@ -118,17 +123,20 @@ angular.module('nap.add', ['ngResource', 'ui.bootstrap'])
                         'project_name': $scope.project_name,
                         'url': $scope.url
                     },
-                }).success(function(response) {
-                    console.log(response)
-                }).error(function(response){
+                }).success(function (response) {
+                    $mdDialog.show($mdDialog.confirm()
+                        .ok('ok')
+                        .targetEvent(e)
+                        .title('log')
+                        .textContent(response.log)
+                    );
+                }).error(function (response) {
                     console.log(response)
                 });
-
-                $state.go('navbar.project');
-
             } else {
 
             }
+            $state.go('navbar.project');
         };
 
     });
