@@ -49,17 +49,21 @@ angular.module('nap', [
         $urlRouterProvider.otherwise('/login');
     }])
 
-    .run(['$rootScope', '$state', '$cookieStore', '$http',
-        function ($rootScope, $state, $cookieStore, $http) {
+    .run(['$rootScope', '$state', '$cookies', '$http',
+        function ($rootScope, $state, $cookies, $http) {
             // keep user logged in after page refresh
-            $rootScope.globals = $cookieStore.get('globals') || {};
-            if ($rootScope.globals.currentUser) {
-                //    $http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.globals.currentUser.authdata; 
+            $rootScope.globals = $cookies.get('token') || false;
+            if ($rootScope.globals) {
+                    console.log("xxx")
+                   $http.defaults.headers.common['Authorization'] = 'Token ' + $rootScope.globals;
             }
 
             $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, options) {
                 // redirect to login page if not logged in
-                if (toState.name !== 'login' && !$rootScope.globals.currentUser) {
+                console.log($rootScope.globals);
+                console.log($cookies.get('token'));
+                if (toState.name !== 'login' && !$rootScope.globals) {
+                    console.log("here");
                     event.preventDefault();
                     $state.go('login');
                 }

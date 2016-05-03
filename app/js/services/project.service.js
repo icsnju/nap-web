@@ -1,9 +1,9 @@
 // var API = 'data/list.json';
-var API = 'http://114.212.189.147:9000/app'
 
 angular.module('nap.project')
-
+    
     .factory('Projects', ['$resource', '$http', function($resource, $http) {
+        var API = 'http://114.212.189.147:9000/app'
         var projects = [];
 
         // $http.get(API + '/projects', {}).success(function(data){
@@ -153,6 +153,7 @@ angular.module('nap.project')
             
             // 监控任务
             monitor: function(callback) {
+                console.log(API);
                 $http({
                     method: 'GET',
                     url: API + '/projects',
