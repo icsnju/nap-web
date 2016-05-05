@@ -108,9 +108,14 @@
                                                             <div class="form-group">
                                                                 <label for="image-field"
                                                                        class="control-label">Image</label>
-                                                                <div><input type="text" id="image-field"
+                                                                <div>
+                                                                    <select type="text"
+                                                                            id = "image-field"
                                                                             ng-model="service.image"
-                                                                            class="form-control"></div>
+                                                                            ng-options="image as image for image in images"
+                                                                            class="form-control">
+                                                                    </select>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">

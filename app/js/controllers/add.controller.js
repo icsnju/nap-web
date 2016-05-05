@@ -13,6 +13,10 @@ angular.module('nap.add', ['ngResource', 'ui.bootstrap'])
         $http.get(API + "/network?kind=all").success(function (response) {
             $scope.networks = response.list;
         });
+        
+        $http.get(API + "/images").success(function (response){
+            $scope.images = response.list;
+        });
 
         $scope.project = [];
         var service = {
