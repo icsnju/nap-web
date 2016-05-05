@@ -16,6 +16,7 @@ angular.module('nap.add', ['ngResource', 'ui.bootstrap'])
 
         $scope.project = [];
         var service = {
+            name: 'service0',
             cpu_shares: '1024',
             mem_limit: '32m',
             disk: '0',
@@ -41,6 +42,7 @@ angular.module('nap.add', ['ngResource', 'ui.bootstrap'])
 
         $scope.addService = function () {
             var service1 = {
+                name: 'service' + $scope.project.length,
                 cpu_shares: '1024',
                 mem_limit: '32m',
                 disk: '0',

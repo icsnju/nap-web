@@ -49,12 +49,11 @@ angular.module('nap', [
         $urlRouterProvider.otherwise('/login');
     }])
 
-    .run(['$rootScope', '$state', '$cookies', '$http',
-        function ($rootScope, $state, $cookies, $http) {
+    .run(['$rootScope', '$state', '$cookies', '$http', '$window',
+        function ($rootScope, $state, $cookies, $http, $window) {
             // keep user logged in after page refresh
             $rootScope.globals = $cookies.get('token') || false;
             if ($rootScope.globals) {
-                    console.log("xxx")
                    $http.defaults.headers.common['Authorization'] = 'Token ' + $rootScope.globals;
             }
 
@@ -68,4 +67,9 @@ angular.module('nap', [
                     $state.go('login');
                 }
             });
+
+            $rootScope.onExit = function(){
+                $cookies.remove('token');
+            };
+            //$window.onbeforeunload = $rootScope.onExit;
         }]);

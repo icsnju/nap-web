@@ -50,7 +50,15 @@ detail.controller("cpuCtrl", ['$scope', '$http', '$stateParams', '$interval', fu
     $scope.series = ['cpu'];
     $scope.data = [];
 
-    $http.get(API + '/monitor?' + 'cmd=container&' + 'project_name=' + project_name + '&service_name=' + service_name).success(function (response) {
+    $http({
+        method: 'GET',
+        url: API + '/monitor',
+        params: {
+            'cmd': 'container',
+            'project_name': project_name,
+            'service_name': service_name
+        }
+    }).success(function (response) {
         $scope.labels = [];
         $scope.series = ['cpu'];
         $scope.data = [];
@@ -67,7 +75,15 @@ detail.controller("cpuCtrl", ['$scope', '$http', '$stateParams', '$interval', fu
     });
 
     var timer = $interval(function () {
-        $http.get(API + '/monitor?' + 'cmd=container&' + 'project_name=' + project_name + '&service_name=' + service_name).success(function (response) {
+        $http({
+            method: 'GET',
+            url: API + '/monitor',
+            params: {
+                'cmd': 'container',
+                'project_name': project_name,
+                'service_name': service_name
+            }
+        }).success(function (response) {
             $scope.labels = [];
             $scope.series = ['cpu'];
             $scope.data = [];
@@ -88,7 +104,7 @@ detail.controller("cpuCtrl", ['$scope', '$http', '$stateParams', '$interval', fu
     $scope.$on("$destroy", function () {
         $interval.cancel(timer);
         timer = undefined;
-    })
+    });
     
     $scope.options = {
             animation: false
@@ -104,7 +120,15 @@ detail.controller("memCtrl", ['$scope', '$http', '$stateParams', '$interval', fu
     $scope.series = [];
     $scope.data = [];
 
-    $http.get(API + '/monitor?' + 'cmd=container&' + 'project_name=' + project_name + '&service_name=' + service_name).success(function (response) {
+    $http({
+        method: 'GET',
+        url: API + '/monitor',
+        params: {
+            'cmd': 'container',
+            'project_name': project_name,
+            'service_name': service_name
+        }
+    }).success(function (response) {
         $scope.labels = [];
         $scope.series = ['cpu'];
         $scope.data = [];
@@ -121,7 +145,15 @@ detail.controller("memCtrl", ['$scope', '$http', '$stateParams', '$interval', fu
     });
 
     var timer = $interval(function () {
-        $http.get(API + '/monitor?' + 'cmd=container&' + 'project_name=' + project_name + '&service_name=' + service_name).success(function (response) {
+        $http({
+            method: 'GET',
+            url: API + '/monitor',
+            params: {
+                'cmd': 'container',
+                'project_name': project_name,
+                'service_name': service_name
+            }
+        }).success(function (response) {
             $scope.labels = [];
             $scope.series = ['memory'];
             $scope.data = [];

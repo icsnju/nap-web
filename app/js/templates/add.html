@@ -51,13 +51,21 @@
                                                         <div class="col-sm-6">
                                                             <label for="name-field" class="control-label">service
                                                                 Name</label>
-                                                            <div><input type="text" id="name-field" ng-model="service.name"
-                                                                    class="form-control">
+                                                            <div><input type="text" id="name-field"
+                                                                        ng-model="service.name"
+                                                                        class="form-control">
                                                             </div>
                                                         </div>
-                                                            <div class="col-sm-6">
+                                                        <div class="col-sm-6">
                                                             <label for="link-field" class="control-label">links</label>
-                                                            <div><input type="'text" id="link-filed" ng-model="service.link" class="form-control"></div>
+                                                            <div>
+                                                                <select type="text"
+                                                                        id="network-field"
+                                                                        ng-model="service.network"
+                                                                        ng-options="service.name as service.name for service in project"
+                                                                        class="form-control">
+                                                                </select>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="row">
@@ -91,7 +99,8 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="cmd-field" class="control-label">Command</label>
-                                                        <div><textarea type="text" id="cmd-field" ng-model="service.command"
+                                                        <div><textarea type="text" id="cmd-field"
+                                                                       ng-model="service.command"
                                                                        class="form-control"></textarea></div>
                                                     </div>
                                                     <div class="row">
@@ -114,7 +123,8 @@
                                                                             ng-model="service.network"
                                                                             ng-options="network as network for network in networks"
                                                                             class="form-control">
-                                                                    </select></div>
+                                                                    </select>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
