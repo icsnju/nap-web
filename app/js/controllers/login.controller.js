@@ -18,12 +18,11 @@ angular.module('nap.auth')
                             'password': $scope.password,
                         },
                     }).success(function (response) {
-                        console.log(response.token);
+                        $cookies.remove('token');
                         $cookies.put('token', response.token);
+                        $http.defaults.headers.common['Authorization'] = 'Token ' + response.token;
                         $state.go('navbar.project');
-                        console.log(response.token);
                     }).error(function (response) {
-                        console.log(response);
                         $scope.error = "username or password is wrong";
                     });
                     // $scope.dataLoading = true;

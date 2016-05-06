@@ -54,22 +54,19 @@ angular.module('nap', [
             // keep user logged in after page refresh
             $rootScope.globals = $cookies.get('token') || false;
             if ($rootScope.globals) {
-                   $http.defaults.headers.common['Authorization'] = 'Token ' + $rootScope.globals;
+                $http.defaults.headers.common['Authorization'] = 'Token ' + $rootScope.globals;
             }
 
             $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, options) {
                 // redirect to login page if not logged in
-                console.log($rootScope.globals);
-                console.log($cookies.get('token'));
                 if (toState.name !== 'login' && !$rootScope.globals) {
-                    console.log("here");
                     event.preventDefault();
                     $state.go('login');
                 }
             });
 
-            $rootScope.onExit = function(){
-                $cookies.remove('token');
-            };
+            // $rootScope.onExit = function(){
+            //     $cookies.remove('token');
+            // };
             //$window.onbeforeunload = $rootScope.onExit;
         }]);

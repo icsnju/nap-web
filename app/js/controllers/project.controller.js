@@ -15,8 +15,9 @@ angular.module('nap.project', ['ngResource', 'ui.bootstrap'])
         '$uibModal',
         '$interval',
         '$mdDialog',
+        '$cookies',
         'Projects',
-        function ($scope, $http, $timeout, $state, $stateParams, $uibModal, $interval, $mdDialog, Projects) {
+        function ($scope, $http, $timeout, $state, $stateParams, $uibModal, $interval, $mdDialog, $cookies, Projects) {
             $scope.query = $stateParams.query || "all";
             $scope.filter = $scope.query
 
