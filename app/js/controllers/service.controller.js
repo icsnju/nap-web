@@ -82,12 +82,12 @@ service_controller.controller('ServiceCtrl', [
 
                 $scope.services = Services.getServices(project_name, query)
             });
-        }
+        };
 
         // 搜索任务
         $scope.search = function () {
             $state.go('service', {query: $scope.search_key})
-        }
+        };
 
         $scope.rowClick = function (serviceID) {
             $state.go('navbar.service_detail', {project: project_name, service_name: serviceID});
@@ -123,3 +123,84 @@ service_controller.controller('ServiceCtrl', [
         });
     }]);
 
+service_controller.controller("PcpuCtrl", ['$scope', '$http', '$stateParams', '$interval', function ($scope, $http, $stateParams, $interval) {
+
+    var project_name = $stateParams.project;
+
+    $scope.labels = [];
+    $scope.series = [];
+    $scope.data = [];
+
+    $http({
+            method: 'GET',
+            url: API + '/services',
+            params: {
+                'project': project_name
+            }
+        }).success(function (response) {
+        for (var i = 0; i < response.services.length; i++) {
+            $scope.series.push(response.services[i]['name']);
+        }
+
+        console.log($scope.series);
+    });
+
+    var timer = $interval(function() {
+
+        // $scope.series = [];
+        // var series = [];
+        // $http({
+        //     method: 'GET',
+        //     url: API + '/services',
+        //     params: {
+        //         'project': project_name
+        //     }
+        // }).success(function (response) {
+        //     for(var i=0; i<response.services.length; i++){
+        //         series.push(response.services[i]['name']);
+        //     }
+        //     console.log(series);
+        //
+        // console.log(series);
+        // $scope.series = series;
+        // console.log($scope.series);
+        // console.log($scope.series.length);
+
+        $scope.data = [];
+        $scope.labels = [];
+
+        for(var i=0; i<$scope.series.length; i++) {
+            var service_name = $scope.series[i];
+
+            $http({
+                method: 'GET',
+                url: API + '/monitor',
+                params: {
+                    'cmd': 'container',
+                    'project_name': project_name,
+                    'service_name': service_name
+                }
+            }).success(function (response) {
+                var data = [];
+                var labels = [];
+                for (var j = 0; j < response.list.length && j < 20; j++) {
+                    labels.push(response.list[j]['timestamp'].split("T")[1].split(".")[0]);
+                    data.push(response.list[j]['cpu_usage']);
+                }
+                $scope.data.push(data);
+                $scope.labels = labels;
+            });
+        }
+        console.log($scope.data)
+    }, 3000);
+
+    $scope.$on("$destroy", function () {
+        $interval.cancel(timer);
+        timer = undefined;
+    });
+
+    $scope.options = {
+            animation: false
+        }
+
+}]);
