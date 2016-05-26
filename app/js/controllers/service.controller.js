@@ -13,7 +13,7 @@ service_controller.controller('DetailCtrl', ['$scope', '$state', '$http', '$stat
         //	console.log($stateParams.taskID);
         //	Tasks.refresh();
         //	$scope.data = Tasks.getById($stateParams.taskID);
-        $scope.project_name = $stateParams.project;
+        $scope.project_name = $stateParams.project_name;
 
         $scope.query = $stateParams.query || "all";
 
@@ -25,7 +25,7 @@ service_controller.controller('DetailCtrl', ['$scope', '$state', '$http', '$stat
         var timer = $interval(function () {
             $http.get(API + '/projects/' + $scope.project_name)
                 .success(function (response) {
-                    $scope.data = response.item
+                    $scope.data = response.item;
                 });
         }, 3000);
 
@@ -73,7 +73,7 @@ service_controller.controller('ServiceCtrl', [
     function ($scope, $http, $timeout, $state, $stateParams, $uibModal, $interval, Services) {
         $scope.query = $stateParams.query || "all";
         $scope.filter = $scope.query
-        var project_name = $stateParams.project.split(",")[0]
+        var project_name = $stateParams.project_name.split(",")[0]
 
         // 加载数据
         var reload = function (query) {
@@ -90,7 +90,7 @@ service_controller.controller('ServiceCtrl', [
         };
 
         $scope.rowClick = function (serviceID) {
-            $state.go('navbar.service_detail', {project: project_name, service_name: serviceID});
+            $state.go('navbar.container', {project_name: project_name, service_name: serviceID});
         };
 
         $http({
@@ -125,27 +125,27 @@ service_controller.controller('ServiceCtrl', [
 
 service_controller.controller("PcpuCtrl", ['$scope', '$http', '$stateParams', '$interval', function ($scope, $http, $stateParams, $interval) {
 
-    var project_name = $stateParams.project;
+    var project_name = $stateParams.project_name;
 
     $scope.labels = [];
     $scope.series = [];
     $scope.data = [];
 
-    $http({
-            method: 'GET',
-            url: API + '/services',
-            params: {
-                'project': project_name
-            }
-        }).success(function (response) {
-        for (var i = 0; i < response.services.length; i++) {
-            $scope.series.push(response.services[i]['name']);
-        }
-
-        console.log($scope.series);
-    });
-
-    var timer = $interval(function() {
+    // $http({
+    //         method: 'GET',
+    //         url: API + '/services',
+    //         params: {
+    //             'project': project_name
+    //         }
+    //     }).success(function (response) {
+    //     for (var i = 0; i < response.services.length; i++) {
+    //         $scope.series.push(response.services[i]['name']);
+    //     }
+    //
+    //     console.log($scope.series);
+    // });
+    //
+    // var timer = $interval(function() {
 
         // $scope.series = [];
         // var series = [];
@@ -166,38 +166,38 @@ service_controller.controller("PcpuCtrl", ['$scope', '$http', '$stateParams', '$
         // console.log($scope.series);
         // console.log($scope.series.length);
 
-        $scope.data = [];
-        $scope.labels = [];
+        // $scope.data = [];
+        // $scope.labels = [];
 
-        for(var i=0; i<$scope.series.length; i++) {
-            var service_name = $scope.series[i];
+    //     for(var i=0; i<$scope.series.length; i++) {
+    //         var service_name = $scope.series[i];
+    //
+    //         $http({
+    //             method: 'GET',
+    //             url: API + '/monitor',
+    //             params: {
+    //                 'cmd': 'container',
+    //                 'project_name': project_name,
+    //                 'service_name': service_name
+    //             }
+    //         }).success(function (response) {
+    //             var data = [];
+    //             var labels = [];
+    //             for (var j = 0; j < response.list.length && j < 20; j++) {
+    //                 labels.push(response.list[j]['timestamp'].split("T")[1].split(".")[0]);
+    //                 data.push(response.list[j]['cpu_usage']);
+    //             }
+    //             $scope.data.push(data);
+    //             $scope.labels = labels;
+    //         });
+    //     }
+    //     console.log($scope.data)
+    // }, 3000);
 
-            $http({
-                method: 'GET',
-                url: API + '/monitor',
-                params: {
-                    'cmd': 'container',
-                    'project_name': project_name,
-                    'service_name': service_name
-                }
-            }).success(function (response) {
-                var data = [];
-                var labels = [];
-                for (var j = 0; j < response.list.length && j < 20; j++) {
-                    labels.push(response.list[j]['timestamp'].split("T")[1].split(".")[0]);
-                    data.push(response.list[j]['cpu_usage']);
-                }
-                $scope.data.push(data);
-                $scope.labels = labels;
-            });
-        }
-        console.log($scope.data)
-    }, 3000);
-
-    $scope.$on("$destroy", function () {
-        $interval.cancel(timer);
-        timer = undefined;
-    });
+    // $scope.$on("$destroy", function () {
+    //     $interval.cancel(timer);
+    //     timer = undefined;
+    // });
 
     $scope.options = {
             animation: false

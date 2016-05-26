@@ -62,7 +62,7 @@ angular.module('nap.project', ['ngResource', 'ui.bootstrap'])
             };
 
             $scope.rowClick = function (project) {
-                $state.go('navbar.service', {project: project});
+                $state.go('navbar.service', {project_name: project});
             };
 
             $scope.test = function(e){

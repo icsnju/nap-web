@@ -5,7 +5,8 @@ angular.module('nap', [
         'ui.router',
         'nap.project',
         'nap.service',
-        'nap.service_detail',
+        'nap.container',
+        'nap.container_detail',
         'nap.machine',
         'nap.add',
         'nap.auth',
@@ -27,23 +28,27 @@ angular.module('nap', [
                 templateUrl: "/app/js/templates/project.html",
                 controller: 'ProjectCtrl'
             }).state("navbar.service", {
-                url: "/project/:project",
+                url: "/project/:project_name",
                 templateUrl: "/app/js/templates/service.html",
                 controller: ''
             }).state("navbar.add", {
                 url: "/add",
                 templateUrl: "/app/js/templates/add.html",
                 controller: 'addCtrl'
-            }).state("navbar.service_detail", {
-                url: "/project/:project/:service_name",
-                templateUrl: "/app/js/templates/service_detail.html",
+            }).state("navbar.container", {
+                url: "/project/:project_name/:service_name",
+                templateUrl: "/app/js/templates/container.html",
+                controller: ''
+            }).state("navbar.container_detail", {
+                url: "/project/:project_name/:service_name/:container_name",
+                templateUrl: "/app/js/templates/container_detail.html",
                 controller: ''
             })
             .state("navbar.machine", {
                 url: "/machine",
                 templateUrl: "/app/js/templates/machine.html",
                 controller: 'machineCtrl'
-        });
+            });
         //$locationProvider.html5Mode({enabled:true, requireBase:false});
         $locationProvider.html5Mode({enabled: true});
         $urlRouterProvider.otherwise('/login');

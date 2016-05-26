@@ -49,19 +49,14 @@
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
-                    <th>Ip</th>
-                    <th>Ports</th>
-                    <th>Status</th>
-                    <th>Options</th>
+                    <th>Scale</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr class="read" ng-repeat="service in services" ng-click="rowClick(service.name)">
+                <tr class="read" ng-repeat="service in services" ng-click="rowClick(service[0])">
                     <td ng-bind="$index+1"></td>
-                    <td class="mail-subject">{{ service.name }}</td>
-                    <td>{{ service.ip }}</td>
-                    <td>{{ service.ports }}</td>
-                    <td>{{ service.status }}</td>
+                    <td class="mail-subject">{{ service[0] }}</td>
+                    <td>{{ service[1] }}</td>
                     <td class="mail-options">
                         <a ng-click="kill(service)" title="kill"><span class="si-close-circle"></span></a>
                         <a ng-click="delete(service)" title="delete"><span class="si-trash"></span></a>
