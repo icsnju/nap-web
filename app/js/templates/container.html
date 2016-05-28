@@ -1,5 +1,5 @@
 <div class="animated fadeInRight">
-    <div ng-controller="mesCtrl">
+    <div ng-controller="CmesCtrl">
         <div id="backTask">
             <a id="backUrl" ui-sref="navbar.service({'project_name':project_name})">
                 <i class="glyphicon glyphicon-arrow-left" style="margin-right:5px; font-size: 14px!important;">
@@ -68,62 +68,25 @@
         </div>
     </div>
     <div class="wrapper wrapper-content">
-        <div ng-cloak="" class="tabsdemoDynamicHeight">
-            <md-content>
-                <md-tabs md-dynamic-height="" md-border-bottom="">
-                    <md-tab label="monitor">
-                        <md-content class="md-padding">
-                            <div class="row tabContent">
-                                <div class="col-sm-12">
-                                    <div ng-controller="cpuCtrl">
-                                        <h2>CPU</h2>
-                                        <canvas id="cpu" class="chart chart-line" chart-data="data"
-                                                chart-labels="labels" chart-options="options" chart-legend="true"
-                                                chart-series="series"
-                                                height="60">
-                                        </canvas>
-                                    </div>
-                                    <div ng-controller="memCtrl">
-                                        <h2>MEM</h2>
-                                        <canvas id="mem" class="chart chart-line" chart-data="data"
-                                                chart-labels="labels" chart-options="options" chart-legend="true"
-                                                chart-series="series"
-                                                height="60">
-                                        </canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </md-content>
-                    </md-tab>
-                    <md-tab label="log">
-                        <md-content class="md-padding">
-                            <div ng-controller="logCtrl">
-                                <pre>{{ log }}</pre>
-                            </div>
-                        </md-content>
-                    </md-tab>
-                    <md-tab label="yaml">
-                        <md-content class="md-padding">
-                            <div ng-controller="yamlCtrl">
-                                <pre>{{ yaml }}</pre>
-                            </div>
-                        </md-content>
-                    </md-tab>
-                    <md-tab label="shell">
-                        <md-content class="md-padding">
-                            <div ng-controller="shellCtrl">
-                                <iframe ng-src="{{ shell }}" style="width:100%; height:400px">
-                                    something wrong
-                                </iframe>
-                            </div>
-                        </md-content>
-                    </md-tab>
-                </md-tabs>
-            </md-content>
+        <div class="detailContent animated fadeInRight" style="background-color: #ffffff">
+            <div ng-controller="ScpuCtrl">
+                <h2>CPU</h2>
+                <canvas id="cpu" class="chart chart-line" chart-data="data"
+                        chart-labels="labels" chart-options="options" chart-legend="true" chart-series="series"
+                        height="60">
+                </canvas>
+            </div>
         </div>
-        <!--
-        Copyright 2016 Google Inc. All Rights Reserved.
-        Use of this source code is governed by an MIT-style license that can be in foundin the LICENSE file at http://material.angularjs.org/license.
-        -->
+    </div>
+    <div class="wrapper wrapper-content">
+        <div class="detailContent animated fadeInRight" style="background-color: #ffffff">
+            <div ng-controller="ScpuCtrl">
+                <h2>MEM</h2>
+                <canvas id="mem" class="chart chart-line" chart-data="mem_data"
+                        chart-labels="mem_labels" chart-options="options" chart-legend="true" chart-series="mem_series"
+                        height="60">
+                </canvas>
+            </div>
+        </div>
     </div>
 </div>

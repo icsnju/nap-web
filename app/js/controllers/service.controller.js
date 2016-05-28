@@ -131,73 +131,51 @@ service_controller.controller("PcpuCtrl", ['$scope', '$http', '$stateParams', '$
     $scope.series = [];
     $scope.data = [];
 
-    // $http({
-    //         method: 'GET',
-    //         url: API + '/services',
-    //         params: {
-    //             'project': project_name
-    //         }
-    //     }).success(function (response) {
-    //     for (var i = 0; i < response.services.length; i++) {
-    //         $scope.series.push(response.services[i]['name']);
-    //     }
-    //
-    //     console.log($scope.series);
-    // });
-    //
-    // var timer = $interval(function() {
+    var func = function(){
+        $http({
+            method: 'GET',
+            url: API + '/monitor',
+            params: {
+                'cmd': 'project',
+                'project_name': project_name
+            }
+        }).success(function (response) {
+            $scope.labels = [];
+            $scope.series = [];
+            $scope.data = [];
+            $scope.mem_labels = [];
+            $scope.mem_series = [];
+            $scope.mem_data = [];
 
-        // $scope.series = [];
-        // var series = [];
-        // $http({
-        //     method: 'GET',
-        //     url: API + '/services',
-        //     params: {
-        //         'project': project_name
-        //     }
-        // }).success(function (response) {
-        //     for(var i=0; i<response.services.length; i++){
-        //         series.push(response.services[i]['name']);
-        //     }
-        //     console.log(series);
-        //
-        // console.log(series);
-        // $scope.series = series;
-        // console.log($scope.series);
-        // console.log($scope.series.length);
+            for (var i = 0; i < response.item.length; i++) {
+                var each_container = response.item[i];
+                $scope.series.push(each_container['name']);
+                $scope.mem_series.push(each_container['name']);
+                var data = [];
+                var labels = [];
+                var mem_data = [];
+                var mem_labels = [];
+                for (var j = 0; j < each_container['list'].length; j++) {
+                    labels.push(each_container['list'][j]['timestamp'].split("T")[1].split(".")[0]);
+                    data.push(each_container['list'][j]['cpu_usage']);
+                    mem_labels.push(each_container['list'][j]['timestamp'].split("T")[1].split(".")[0]);
+                    mem_data.push(each_container['list'][j]['mem_usage']);
+                }
+                $scope.labels = labels;
+                $scope.data.push(data);
+                $scope.mem_labels = mem_labels;
+                $scope.mem_data.push(mem_data);
+            }
 
-        // $scope.data = [];
-        // $scope.labels = [];
+        });
+    };
+    
+    var timer = $interval(func, 1000);
 
-    //     for(var i=0; i<$scope.series.length; i++) {
-    //         var service_name = $scope.series[i];
-    //
-    //         $http({
-    //             method: 'GET',
-    //             url: API + '/monitor',
-    //             params: {
-    //                 'cmd': 'container',
-    //                 'project_name': project_name,
-    //                 'service_name': service_name
-    //             }
-    //         }).success(function (response) {
-    //             var data = [];
-    //             var labels = [];
-    //             for (var j = 0; j < response.list.length && j < 20; j++) {
-    //                 labels.push(response.list[j]['timestamp'].split("T")[1].split(".")[0]);
-    //                 data.push(response.list[j]['cpu_usage']);
-    //             }
-    //             $scope.data.push(data);
-    //             $scope.labels = labels;
-    //         });
-    //     }
-    //     console.log($scope.data)
-    // }, 3000);
-
-    // $scope.$on("$destroy", function () {
-    //     $interval.cancel(timer);
-    //     timer = undefined;
-    // });
+    $scope.$on("$destroy", function () {
+        $interval.cancel(timer);
+        timer = undefined;
+    });
 
     $scope.options = {
             animation: false

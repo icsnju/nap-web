@@ -78,4 +78,15 @@
             </div>
         </div>
     </div>
+    <div class="wrapper wrapper-content">
+        <div class="detailContent animated fadeInRight" style="background-color: #ffffff">
+            <div ng-controller="PcpuCtrl">
+                <h2>MEM</h2>
+                <canvas id="mem" class="chart chart-line" chart-data="mem_data"
+                        chart-labels="mem_labels" chart-options="options" chart-legend="true" chart-series="mem_series"
+                        height="60">
+                </canvas>
+            </div>
+        </div>
+    </div>
 </div>

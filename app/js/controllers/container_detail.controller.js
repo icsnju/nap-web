@@ -70,7 +70,7 @@ detail.controller("cpuCtrl", ['$scope', '$http', '$stateParams', '$interval', fu
 
         var labels = [];
         var data = [];
-        for (var i = 0; i < response.list.length && i < 20; i++) {
+        for (var i = 0; i < response.list.length; i++) {
             labels.push(response.list[i]['timestamp'].split("T")[1].split(".")[0]);
             data.push(response.list[i]['cpu_usage']);
         }
@@ -96,7 +96,7 @@ detail.controller("cpuCtrl", ['$scope', '$http', '$stateParams', '$interval', fu
 
             var labels = [];
             var data = [];
-            for (var i = 0; i < response.list.length && i < 10; i++) {
+            for (var i = 0; i < response.list.length; i++) {
                 labels.push(response.list[i]['timestamp'].split("T")[1].split(".")[0]);
                 data.push(response.list[i]['cpu_usage']);
             }
@@ -143,7 +143,7 @@ detail.controller("memCtrl", ['$scope', '$http', '$stateParams', '$interval', fu
 
         var labels = [];
         var data = [];
-        for (var i = 0; i < response.list.length && i < 20; i++) {
+        for (var i = 0; i < response.list.length; i++) {
             labels.push(response.list[i]['timestamp'].split("T")[1].split(".")[0]);
             data.push(response.list[i]['cpu_usage']);
         }
@@ -169,7 +169,7 @@ detail.controller("memCtrl", ['$scope', '$http', '$stateParams', '$interval', fu
 
             var labels = [];
             var data = [];
-            for (var i = 0; i < response.list.length && i < 10; i++) {
+            for (var i = 0; i < response.list.length; i++) {
                 labels.push(response.list[i]['timestamp'].split("T")[1].split(".")[0]);
                 data.push(response.list[i]['memory_usage']);
             }
