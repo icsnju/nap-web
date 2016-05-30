@@ -4,8 +4,8 @@ var API = 'http://114.212.189.147:9000/app/'
 
 var detail = angular.module('nap.container', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache', 'chart.js', 'ui.router']);
 
-detail.controller("CmesCtrl", ['$scope', '$http', '$stateParams',
-    function ($scope, $http, $stateParams) {
+detail.controller("CmesCtrl", ['$scope', '$http', '$stateParams', '$interval',
+    function ($scope, $http, $stateParams, $interval) {
         //	console.log($stateParams.taskID);
         //	Tasks.refresh();
         //	$scope.data = Tasks.getById($stateParams.taskID);
@@ -15,15 +15,22 @@ detail.controller("CmesCtrl", ['$scope', '$http', '$stateParams',
         $scope.project_name = $stateParams.project_name;
         $scope.service_name = $stateParams.service_name;
 
-        $http({
-            method: 'GET',
-            url: API + '/service',
-            params: {
-                'project': project_name,
-                'service': service_name
-            }
-        }).success(function (data) {
-            $scope.data = data.item[0];
+        var timer = $interval(function() {
+            $http({
+                method: 'GET',
+                url: API + '/service',
+                params: {
+                    'project': project_name,
+                    'service': service_name
+                }
+            }).success(function (data) {
+                $scope.data = data.item[0];
+            });
+        }, 1000);
+        
+        $scope.$on("$destroy", function () {
+            $interval.cancel(timer);
+            timer = undefined;
         });
 
     }
@@ -114,23 +121,41 @@ detail.controller("ScpuCtrl", ['$scope', '$http', '$stateParams', '$interval', f
             $scope.mem_series = [];
             $scope.mem_data = [];
 
+            var max_len = 0;
+            var max_index = 0;
+
+            for (var i=0; i<response.item.length; i++){
+                var len = response.item[i]['list'].length;
+                if (len > max_len){
+                    max_len = len;
+                    max_index = i;
+                }
+            }
+
+            for(var i=0; i<response.item[max_index]['list'].length; i++){
+                $scope.labels.push(response.item[max_index]['list'][i]['timestamp'].split("T")[1].split(".")[0]);
+                $scope.mem_labels.push(response.item[max_index]['list'][i]['timestamp'].split("T")[1].split(".")[0]);
+            }
+
             for (var i = 0; i < response.item.length; i++) {
                 var each_container = response.item[i];
-                $scope.series.push(each_container['name'])
-                $scope.mem_series.push(each_container['name'])
+                
+                $scope.series.push(each_container['name']);
+                $scope.mem_series.push(each_container['name']);
+                
                 var data = [];
-                var labels = [];
                 var mem_data = [];
-                var mem_labels = [];
+
+                for(var j=0; j<max_len-each_container['list'].length; j++){
+                    data.push(0);
+                    mem_data.push(0);
+                }
+
                 for (var j = 0; j < each_container['list'].length; j++) {
-                    labels.push(each_container['list'][j]['timestamp'].split("T")[1].split(".")[0]);
                     data.push(each_container['list'][j]['cpu_usage'])
-                    mem_labels.push(each_container['list'][j]['timestamp'].split("T")[1].split(".")[0]);
                     mem_data.push(each_container['list'][j]['mem_usage'])
                 }
-                $scope.labels = labels;
                 $scope.data.push(data);
-                $scope.mem_labels = mem_labels;
                 $scope.mem_data.push(mem_data);
             }
 

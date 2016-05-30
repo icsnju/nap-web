@@ -147,23 +147,42 @@ service_controller.controller("PcpuCtrl", ['$scope', '$http', '$stateParams', '$
             $scope.mem_series = [];
             $scope.mem_data = [];
 
+            var max_len = 0;
+            var max_index = 0;
+
+            for (var i=0; i<response.item.length; i++){
+                var len = response.item[i]['list'].length;
+                if (len > max_len){
+                    max_len = len;
+                    max_index = i;
+                }
+            }
+
+            for(var i=0; i<response.item[max_index]['list'].length; i++){
+                $scope.labels.push(response.item[max_index]['list'][i]['timestamp'].split("T")[1].split(".")[0]);
+                $scope.mem_labels.push(response.item[max_index]['list'][i]['timestamp'].split("T")[1].split(".")[0]);
+            }
+
             for (var i = 0; i < response.item.length; i++) {
+                
                 var each_container = response.item[i];
+                
                 $scope.series.push(each_container['name']);
                 $scope.mem_series.push(each_container['name']);
+
                 var data = [];
-                var labels = [];
                 var mem_data = [];
-                var mem_labels = [];
+
+                for(var j=0; j<max_len-each_container['list'].length; j++){
+                    data.push(0);
+                    mem_data.push(0);
+                }
+
                 for (var j = 0; j < each_container['list'].length; j++) {
-                    labels.push(each_container['list'][j]['timestamp'].split("T")[1].split(".")[0]);
                     data.push(each_container['list'][j]['cpu_usage']);
-                    mem_labels.push(each_container['list'][j]['timestamp'].split("T")[1].split(".")[0]);
                     mem_data.push(each_container['list'][j]['mem_usage']);
                 }
-                $scope.labels = labels;
                 $scope.data.push(data);
-                $scope.mem_labels = mem_labels;
                 $scope.mem_data.push(mem_data);
             }
 
@@ -178,7 +197,7 @@ service_controller.controller("PcpuCtrl", ['$scope', '$http', '$stateParams', '$
     });
 
     $scope.options = {
-            animation: false
-        }
+        animation: false
+    }
 
 }]);

@@ -22,8 +22,8 @@ overview.controller("machineCtrl", function ($scope, $http, $interval) {
             var node = $scope.data[j];
 
             cpu_usage += node['cpu_usage'];
-            memory_usage += node['memory_usage'];
-            memory_total += node['memory_total'];
+            memory_usage += node['mem_usage'];
+            memory_total += node['mem_total'];
             filesystem_usage += node['filesystem_usage'];
             filesystem_total += node['filesystem_total'];
 
@@ -56,8 +56,8 @@ overview.controller("machineCtrl", function ($scope, $http, $interval) {
                 var node = $scope.data[j];
 
                 cpu_usage += node['cpu_usage'];
-                memory_usage += node['memory_usage'];
-                memory_total += node['memory_total'];
+                memory_usage += node['mem_usage'];
+                memory_total += node['mem_total'];
                 filesystem_usage += node['filesystem_usage'];
                 filesystem_total += node['filesystem_total'];
 

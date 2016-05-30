@@ -171,7 +171,7 @@ detail.controller("memCtrl", ['$scope', '$http', '$stateParams', '$interval', fu
             var data = [];
             for (var i = 0; i < response.list.length; i++) {
                 labels.push(response.list[i]['timestamp'].split("T")[1].split(".")[0]);
-                data.push(response.list[i]['memory_usage']);
+                data.push(response.list[i]['mem_usage']);
             }
             $scope.series = ['memory'];
             $scope.labels = labels;
